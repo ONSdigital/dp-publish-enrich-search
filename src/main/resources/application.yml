@@ -1,0 +1,45 @@
+root-dir: s3://ons-web-data/publishing/2017-01-23/master/
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ??
+      secretKey: ??
+      instanceProfile: true
+    region:
+      static: eu-west-1
+
+kafka:
+  zookeeper:
+    connect: localhost:9092
+  topic: dp.enrichment
+  message-key: si.key
+  auto-start: false
+spring:
+  main:
+     web-environment: false
+  kafka:
+    consumer:
+      group-id: dpEnrichedPublishedDocument
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+    producer:
+      batch-size: 16384
+      buffer-memory: 33554432
+      retries: 0
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+elasticsearch:
+#  cluster-name: ONSCluster
+  ignore-cluster-name: true
+  inet-addresses:
+        -
+          host: localhost
+          port: 9300
+#        -
+#          host: localhos2
+#          port: 9301
