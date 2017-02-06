@@ -26,15 +26,9 @@ public enum ModelEnum {
     return indexDocProperty;
   }
 
-  public void setIndexDocProperty(final String indexDocProperty) {
-    this.indexDocProperty = indexDocProperty;
-  }
-
   public String getFileProperty() {
     return fileProperty;
   }
 
-  public void setFileProperty(final String fileProperty) {
-    this.fileProperty = fileProperty;
-  }
+
 }

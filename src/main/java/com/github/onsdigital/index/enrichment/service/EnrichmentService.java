@@ -26,6 +26,17 @@ import static com.github.onsdigital.index.enrichment.model.ModelEnum.PAGEDATA;
 public class EnrichmentService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(EnrichmentService.class);
+
+  ContentExtractorFactory getExtractorFactory() {
+    return extractorFactory;
+  }
+
+
+  EnrichmentService setExtractorFactory(final ContentExtractorFactory extractorFactory) {
+    this.extractorFactory = extractorFactory;
+    return this;
+  }
+
   @Autowired
   private ContentExtractorFactory extractorFactory;
 

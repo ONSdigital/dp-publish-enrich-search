@@ -32,10 +32,28 @@ public class DocumentLoaderService {
   private static final String INDEX_ALIAS = "ons";
 
   @Autowired
-  ResourceLoader resourceLoader;
+  private ResourceLoader resourceLoader;
 
   @Autowired
   private ElasticRepository repo;
+
+  ResourceLoader getResourceLoader() {
+    return resourceLoader;
+  }
+
+  DocumentLoaderService setResourceLoader(final ResourceLoader resourceLoader) {
+    this.resourceLoader = resourceLoader;
+    return this;
+  }
+
+  ElasticRepository getRepo() {
+    return repo;
+  }
+
+  DocumentLoaderService setRepo(final ElasticRepository repo) {
+    this.repo = repo;
+    return this;
+  }
 
   /**
    * Called by Spring Integration when a new Data URI is provided.
@@ -76,7 +94,7 @@ public class DocumentLoaderService {
     Data returnData = null;
     try {
 
-      String dataJson  =  ResourceUtils.readFileToString(r);
+      String dataJson = ResourceUtils.readFileToString(r);
       Map<String, Object> map = MAPPER.readValue(dataJson, Map.class);
 
       returnData = new Data().setIndex(INDEX_ALIAS)

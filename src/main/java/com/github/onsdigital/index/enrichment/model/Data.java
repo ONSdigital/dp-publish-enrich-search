@@ -1,5 +1,8 @@
 package com.github.onsdigital.index.enrichment.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.Map;
 
 /**
@@ -11,6 +14,7 @@ public class Data {
   private String id;
   private String index;
   private String type;
+
   private Map<String, Object> source;
   private String raw;
   private String dataFileLocation;
@@ -67,5 +71,39 @@ public class Data {
   public Data setDataFileLocation(final String dataFileLocation) {
     this.dataFileLocation = dataFileLocation;
     return this;
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    final Data data = (Data) o;
+
+    return new EqualsBuilder()
+        .append(getId(), data.getId())
+        .append(getIndex(), data.getIndex())
+        .append(getType(), data.getType())
+        .append(getSource(), data.getSource())
+        .append(getRaw(), data.getRaw())
+        .append(getDataFileLocation(), data.getDataFileLocation())
+        .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+        .append(getId())
+        .append(getIndex())
+        .append(getType())
+        .append(getSource())
+        .append(getRaw())
+        .append(getDataFileLocation())
+        .toHashCode();
   }
 }

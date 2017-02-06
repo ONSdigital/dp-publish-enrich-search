@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 /**
  * This should handle S3, http and localfile system if defined correctly i.e. s3://mybucket/file.
  */
+
 public class ResourceDocument {
 
   private String dataFileLocation;
@@ -35,7 +36,8 @@ public class ResourceDocument {
     return dataFileLocation;
   }
 
-  public void setDataFileLocation(final String dataFileLocation) {
+  public ResourceDocument setDataFileLocation(final String dataFileLocation) {
     this.dataFileLocation = dataFileLocation;
+    return this;
   }
 }

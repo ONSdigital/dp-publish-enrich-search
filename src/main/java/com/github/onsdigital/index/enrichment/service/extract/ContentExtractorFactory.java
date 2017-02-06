@@ -13,20 +13,20 @@ public class ContentExtractorFactory {
 
   @Autowired
   private ResourceLoader resourceLoader;
+  @Value("${root-dir}")
+  private String rootFolder;
 
   public String getRootFolder() {
     return rootFolder;
   }
 
-  public void setRootFolder(final String rootFolder) {
+  public ContentExtractorFactory setRootFolder(final String rootFolder) {
     this.rootFolder = rootFolder;
+    return this;
   }
 
-  @Value("${root-dir}")
-  private String rootFolder;
-
-  public ContentExtractor getInstance(final String dataJsonLocation, final String filePath){
-    return new ContentExtractor(getRootFolder(),dataJsonLocation,filePath,getResourceLoader());
+  public ContentExtractor getInstance(final String dataJsonLocation, final String filePath) {
+    return new ContentExtractor(getRootFolder(), dataJsonLocation, filePath, getResourceLoader());
   }
 
 
@@ -34,7 +34,8 @@ public class ContentExtractorFactory {
     return resourceLoader;
   }
 
-  public void setResourceLoader(final ResourceLoader resourceLoader) {
+  public ContentExtractorFactory setResourceLoader(final ResourceLoader resourceLoader) {
     this.resourceLoader = resourceLoader;
+    return this;
   }
 }

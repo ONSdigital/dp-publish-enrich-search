@@ -74,7 +74,7 @@ public class FileContentExtractUtil {
         LOGGER.error("extractContent([pageURI, filePath]) : file {} can not be found and can not be loaded");
       }
     }
-    catch (TikaException | IOException te) {
+    catch (TikaException | IOException  te) {
       LOGGER.error("extractContent([pageURI, filePath]) : error extracting file {} ", te.getMessage(), te);
     }
     return contentText;
@@ -91,12 +91,13 @@ public class FileContentExtractUtil {
     return documentMetadatas.stream()
                             .map(m -> m.get("Content-Type"))
                             .filter(Objects::nonNull)
-                            .anyMatch(type -> type.contains("spreadsheetml")
+                            .anyMatch(type -> type.contains("spreadsheet")
                                 || type.contains("text/csv")
                                 || type.contains("application/xml")
                                 || type.contains("excel")
                                 || type.contains("msaccess")
-                                || type.contains("x-123"));
+                                || type.contains("x-123")
+                                || type.contains("lotus-1-2-3"));
   }
 
   /**
@@ -112,7 +113,9 @@ public class FileContentExtractUtil {
                             .anyMatch(name -> name.endsWith("csv")
                                 || name.endsWith("xls")
                                 || name.endsWith("xlsx")
-                                || name.endsWith("xml"));
+                                || name.endsWith("xml")
+                                || name.endsWith("123")
+                                || name.endsWith("ods"));
   }
 
 
@@ -135,8 +138,7 @@ public class FileContentExtractUtil {
 
     try (InputStream stream = resource.getInputStream()) {
       Metadata parentMetadata = new Metadata();
-      parentMetadata.set(Metadata.RESOURCE_NAME_KEY,
-                         resource.getFilename());
+      parentMetadata.set(Metadata.RESOURCE_NAME_KEY, resource.getFilename());
       documentMetadatas.add(parentMetadata);
 
       ParseContext context = new ParseContext();

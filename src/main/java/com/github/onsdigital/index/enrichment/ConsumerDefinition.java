@@ -6,7 +6,7 @@ import com.github.onsdigital.index.enrichment.config.KafkaConsumerConfig;
 import com.github.onsdigital.index.enrichment.model.EnrichAllIndexedDocumentsRequest;
 import com.github.onsdigital.index.enrichment.model.EnrichIndexedDocumentsRequest;
 import com.github.onsdigital.index.enrichment.model.EnrichResourceDocumentsRequest;
-import com.github.onsdigital.index.enrichment.model.Request;
+import com.github.onsdigital.index.enrichment.model.transformer.RequestTransformer;
 import com.github.onsdigital.index.enrichment.service.DocumentLoaderService;
 import com.github.onsdigital.index.enrichment.service.EnrichmentService;
 import com.github.onsdigital.index.enrichment.service.UpsertService;
@@ -17,8 +17,6 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.kafka.Kafka;
-import org.springframework.integration.dsl.support.Transformers;
-import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.AbstractMessageListenerContainer;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
@@ -58,7 +56,7 @@ public class ConsumerDefinition {
   public IntegrationFlow fromKafka(AbstractMessageListenerContainer container) {
     return IntegrationFlows
         .from(Kafka.messageDrivenChannelAdapter(container))
-        .transform(Transformers.fromJson(Request.class, new Jackson2JsonObjectMapper(MAPPER)))
+        .transform(new RequestTransformer())
         .handle(loadDocumentService)
         .split()
         .channel(MessageChannels.executor("enrich", Executors.newFixedThreadPool(12)))

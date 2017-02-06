@@ -17,15 +17,17 @@ public class AwsConfiguration {
     return accessKey;
   }
 
-  public void setAccessKey(final String accessKey) {
+  public AwsConfiguration setAccessKey(final String accessKey) {
     this.accessKey = accessKey;
+    return this;
   }
 
   public String getSecretKey() {
     return secretKey;
   }
 
-  public void setSecretKey(final String secretKey) {
+  public AwsConfiguration setSecretKey(final String secretKey) {
     this.secretKey = secretKey;
+    return this;
   }
 }

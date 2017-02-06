@@ -78,7 +78,7 @@ public class ContentExtractor {
 
     if (null != dataJsonLocation) {
       //Get the just the filename as the the file should be in the same directort as the dataJson
-      String concat = substituteFileName(dataJsonLocation,filePath);
+      String concat = substituteFileName(dataJsonLocation, filePath);
       downloadPath = resourceLoader.getResource(concat);
 
     }
@@ -86,7 +86,7 @@ public class ContentExtractor {
     if (null == downloadPath
         || !downloadPath.exists()) {
 
-      String concat = concatenate(rootPath  ,filePath);
+      String concat = concatenate(rootPath, filePath);
       downloadPath = resourceLoader.getResource(concat);
 
 

@@ -43,7 +43,8 @@ public class ElasticRepository {
 
   public void upsertData(String id, String index, String type, Map<String, Object> updatedSource) {
     UpdateRequestBuilder updateRequestBuilder = elasticClient.prepareUpdate(index, type, id);
-    updateRequestBuilder.setDoc(updatedSource);
+    updateRequestBuilder.setDoc(updatedSource)
+                        .setUpsert(updatedSource);
     UpdateResponse updateResponse = updateRequestBuilder.execute()
                                                         .actionGet();
     LOGGER.info("upsertData([id => {}, index => {}, type => {}, updatedSource]) : ",
@@ -62,7 +63,6 @@ public class ElasticRepository {
    */
   public List<Data> listAllIndexDocuments(String index) {
     LOGGER.info("listAllIndexDocuments([index]) : for index '{}' ", index);
-
 
 
     SearchRequestBuilder query = elasticClient.prepareSearch()
