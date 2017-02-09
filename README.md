@@ -74,6 +74,9 @@ This enrichment micro-service is a [Spring Integration&trade;](https://projects.
 The current integration flow is
 ![Spring Integration Flow -> Kafka -> transform -> load -> enrich -> upsert](kafkaInboundEndpoint.png)
 
+but this could easily ber ended to include other inbound and outbound endpoints, primarily by only be including new configuration.
+![Spring Integration Flow -> Kafka|JMS|SOAP|Rest -> transform -> load -> enrich -> upsert](multiInboundEndpoint.png)
+
 ###Spring Boot&trade;
 
 
