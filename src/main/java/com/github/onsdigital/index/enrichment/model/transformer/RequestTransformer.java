@@ -10,13 +10,13 @@ import java.io.IOException;
 /**
  * Request and its subtype Spring Transformer
  */
-public class RequestTransformer implements GenericTransformer<byte[], Request> {
+public class RequestTransformer implements GenericTransformer<String, Request> {
   private static final Logger LOGGER = LoggerFactory.getLogger(RequestTransformer.class);
 
   private static final SubTypeMapper<Request> MAPPER = new SubTypeMapper<>(Request.class);
 
   @Override
-  public Request transform(final byte[] source) {
+  public Request transform(final String source) {
     Request request = null;
     try {
       request = MAPPER.readValue(source);

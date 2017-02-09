@@ -20,7 +20,7 @@ public class RequestSerializationTest {
   @Test
   public void testEnrichAllIndexedDocumentsRequest() throws IOException {
     EnrichAllIndexedDocumentsRequest e = new EnrichAllIndexedDocumentsRequest().setIndex("testIndex");
-    Request a = requestMapper.readValue(genericMapper.writeValueAsBytes(e));
+    Request a = requestMapper.readValue(genericMapper.writeValueAsString(e));
     assertEquals(e, a);
   }
 
@@ -32,7 +32,7 @@ public class RequestSerializationTest {
                                                         .setType("testType");
     EnrichIndexedDocumentsRequest e = new EnrichIndexedDocumentsRequest().setDocuments(Lists.newArrayList(enrichDocument));
 
-    Request a = requestMapper.readValue(genericMapper.writeValueAsBytes(e));
+    Request a = requestMapper.readValue(genericMapper.writeValueAsString(e));
     assertEquals(e, a);
 
   }
@@ -42,7 +42,7 @@ public class RequestSerializationTest {
   public void testEnrichResourceDocumentsRequest() throws IOException {
     List<ResourceDocument> res = Lists.newArrayList(new ResourceDocument().setDataFileLocation("testFileLocation"));
     EnrichResourceDocumentsRequest e = new EnrichResourceDocumentsRequest().setResources(res);
-    Request a = requestMapper.readValue(genericMapper.writeValueAsBytes(e));
+    Request a = requestMapper.readValue(genericMapper.writeValueAsString(e));
     assertEquals(e, a);
 
   }

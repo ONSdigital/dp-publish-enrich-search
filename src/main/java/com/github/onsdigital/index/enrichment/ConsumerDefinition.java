@@ -1,8 +1,8 @@
 package com.github.onsdigital.index.enrichment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.onsdigital.index.enrichment.config.KafkaConfig;
-import com.github.onsdigital.index.enrichment.config.KafkaConsumerConfig;
+import com.github.onsdigital.index.enrichment.kafka.KafkaConfig;
+import com.github.onsdigital.index.enrichment.kafka.KafkaConsumerConfig;
 import com.github.onsdigital.index.enrichment.model.EnrichAllIndexedDocumentsRequest;
 import com.github.onsdigital.index.enrichment.model.EnrichIndexedDocumentsRequest;
 import com.github.onsdigital.index.enrichment.model.EnrichResourceDocumentsRequest;
@@ -17,6 +17,7 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.kafka.Kafka;
+import org.springframework.integration.dsl.kafka.KafkaMessageDrivenChannelAdapterSpec;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.AbstractMessageListenerContainer;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
@@ -54,8 +55,11 @@ public class ConsumerDefinition {
 
   @Bean
   public IntegrationFlow fromKafka(AbstractMessageListenerContainer container) {
+    KafkaMessageDrivenChannelAdapterSpec messageConsumer = Kafka.messageDrivenChannelAdapter(container);
+    messageConsumer.ackDiscarded(true);
+
     return IntegrationFlows
-        .from(Kafka.messageDrivenChannelAdapter(container))
+        .from(messageConsumer)
         .transform(new RequestTransformer())
         .handle(loadDocumentService)
         .split()

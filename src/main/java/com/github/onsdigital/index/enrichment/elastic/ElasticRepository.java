@@ -9,6 +9,7 @@ import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +19,34 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Created by fawks on 01/02/2017.
+ * Created by James Fawke on 01/02/2017.
  */
 @Component
 public class ElasticRepository {
+
   private static final Logger LOGGER = LoggerFactory.getLogger(ElasticRepository.class);
 
   @Autowired
   private TransportClient elasticClient;
 
+
+  TransportClient getElasticClient() {
+    return elasticClient;
+  }
+
+  ElasticRepository setElasticClient(final TransportClient elasticClient) {
+    this.elasticClient = elasticClient;
+    return this;
+  }
+
   public Data loadData(String id, String index, String type) {
 
-    GetResponse document = elasticClient.get(new GetRequest(index, type, id))
+    GetResponse document = getElasticClient().get(new GetRequest(index, type, id))
                                         .actionGet();
+
     return new Data().setId(document.getId())
                      .setIndex(document.getIndex())
                      .setType(document.getType())
@@ -42,11 +56,14 @@ public class ElasticRepository {
 
 
   public void upsertData(String id, String index, String type, Map<String, Object> updatedSource) {
-    UpdateRequestBuilder updateRequestBuilder = elasticClient.prepareUpdate(index, type, id);
-    updateRequestBuilder.setDoc(updatedSource)
-                        .setUpsert(updatedSource);
+    UpdateRequestBuilder updateRequestBuilder = getElasticClient().prepareUpdate(index, type, id);
+
+    updateRequestBuilder.setDoc(updatedSource);
+    updateRequestBuilder.setUpsert(updatedSource);
+
     UpdateResponse updateResponse = updateRequestBuilder.execute()
                                                         .actionGet();
+
     LOGGER.info("upsertData([id => {}, index => {}, type => {}, updatedSource]) : ",
                 id,
                 index,
@@ -65,7 +82,7 @@ public class ElasticRepository {
     LOGGER.info("listAllIndexDocuments([index]) : for index '{}' ", index);
 
 
-    SearchRequestBuilder query = elasticClient.prepareSearch()
+    SearchRequestBuilder query = getElasticClient().prepareSearch()
                                               .setIndices(index)
                                               .setScroll(TimeValue.timeValueHours(1))
                                               .setSize(1000);
@@ -76,23 +93,30 @@ public class ElasticRepository {
     SearchResponse searchResponse = query.execute()
                                          .actionGet();
 
-    List<Data> indexedDocuments = new ArrayList<>();
-
+    final List<Data> indexedDocuments = new ArrayList<>();
+    final AtomicLong i = new AtomicLong();
+    SearchHit[] hits = searchResponse.getHits()
+                                     .getHits();
     do {
-      Arrays.stream(searchResponse.getHits()
-                                  .getHits())
-            .forEach(d -> indexedDocuments.add(new Data().setId(d.getId())
-                                                         .setIndex(d.getIndex())
-                                                         .setType(d.getType())
-                                                         .setSource(d.getSource())));
-      LOGGER.info("listAllIndexDocuments([index]) : for index '{}' next 1000", index);
-      searchResponse = elasticClient.prepareSearchScroll(searchResponse.getScrollId())
+
+      Arrays.stream(hits)
+            .forEach(d -> {
+              indexedDocuments.add(new Data().setId(d.getId())
+                                             .setIndex(d.getIndex())
+                                             .setType(d.getType())
+                                             .setSource(d.getSource()));
+            });
+
+      LOGGER.info("listAllIndexDocuments([index]) : for  index '{}' next 1000", index);
+      String scrollId = searchResponse.getScrollId();
+      searchResponse = getElasticClient().prepareSearchScroll(scrollId)
                                     .setScroll(TimeValue.timeValueHours(1))
                                     .execute()
                                     .actionGet();
+      hits = searchResponse.getHits()
+                           .getHits();
     }
-    while (searchResponse.getHits()
-                         .getHits().length != 0);
+    while (hits.length != 0);
 
     return indexedDocuments;
 

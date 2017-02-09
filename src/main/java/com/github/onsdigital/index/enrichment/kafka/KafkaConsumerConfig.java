@@ -1,4 +1,4 @@
-package com.github.onsdigital.index.enrichment.config;
+package com.github.onsdigital.index.enrichment.kafka;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

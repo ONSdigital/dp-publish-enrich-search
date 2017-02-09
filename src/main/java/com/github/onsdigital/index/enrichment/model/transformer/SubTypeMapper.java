@@ -44,7 +44,7 @@ public class SubTypeMapper<T> {
     MAPPER.registerSubtypes(requestClasses.toArray(new Class[requestClasses.size()]));
   }
 
-  public T readValue(final byte[] source) throws IOException {
+  public T readValue(final String source) throws IOException {
     return MAPPER.readValue(source, parentType);
 
   }

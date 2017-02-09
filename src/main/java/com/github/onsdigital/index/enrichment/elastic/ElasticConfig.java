@@ -1,5 +1,7 @@
 package com.github.onsdigital.index.enrichment.elastic;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +31,9 @@ public class ElasticConfig {
     return inetAddresses;
   }
 
-  public void setInetAddresses(final List<InetAddressConfig> inetAddresses) {
+  public ElasticConfig setInetAddresses(final List<InetAddressConfig> inetAddresses) {
     this.inetAddresses = inetAddresses;
+    return this;
   }
 
   public String getClusterName() {
@@ -41,5 +44,33 @@ public class ElasticConfig {
     this.clusterName = clusterName;
     return this;
 
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    final ElasticConfig that = (ElasticConfig) o;
+
+    return new EqualsBuilder()
+        .append(getInetAddresses(), that.getInetAddresses())
+        .append(getClusterName(), that.getClusterName())
+        .append(ignoreClusterName, that.ignoreClusterName)
+        .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+        .append(getInetAddresses())
+        .append(getClusterName())
+        .append(ignoreClusterName)
+        .toHashCode();
   }
 }

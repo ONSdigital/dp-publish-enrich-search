@@ -1,4 +1,4 @@
-package com.github.onsdigital.index.enrichment.config;
+package com.github.onsdigital.index.enrichment.kafka;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -19,32 +19,37 @@ public class KafkaConfig {
     return topic;
   }
 
-  public void setTopic(final String topic) {
+  public KafkaConfig setTopic(final String topic) {
     this.topic = topic;
+    return this;
   }
 
   public String getMessageKey() {
     return messageKey;
   }
 
-  public void setMessageKey(final String messageKey) {
+  public KafkaConfig setMessageKey(final String messageKey) {
     this.messageKey = messageKey;
+    return this;
   }
 
   public Boolean getAutoStart() {
     return autoStart;
   }
 
-  public void setAutoStart(final Boolean autoStart) {
+  public KafkaConfig setAutoStart(final Boolean autoStart) {
     this.autoStart = autoStart;
+    return this;
+
   }
 
   public ZookeeperConfig getZookeeper() {
     return zookeeper;
   }
 
-  public void setZookeeper(final ZookeeperConfig zookeeper) {
+  public KafkaConfig setZookeeper(final ZookeeperConfig zookeeper) {
     this.zookeeper = zookeeper;
+    return this;
   }
 
   public static class ZookeeperConfig {
@@ -54,8 +59,9 @@ public class KafkaConfig {
       return connect;
     }
 
-    public void setConnect(final String connect) {
+    public ZookeeperConfig setConnect(final String connect) {
       this.connect = connect;
+      return this;
     }
   }
 }

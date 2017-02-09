@@ -3,7 +3,6 @@ package com.github.onsdigital.index.enrichment.model.transformer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
-import org.apache.cxf.common.util.StringUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,9 +18,12 @@ import static org.junit.Assert.assertTrue;
  * Created by fawks on 06/02/2017.
  */
 public class SubTypeMapperTest {
+
+  public static final ObjectMapper MPR = new ObjectMapper();
+
   @Test
   public void testSubTypeDiscovery() throws Exception {
-    new SubTypeMapper(TestParent.class) {
+    new SubTypeMapper<TestParent>(TestParent.class) {
       @Override
       void assignSubtypes(final Set requestClasses) {
         assertTrue(requestClasses.contains(TestConcrete.class));
@@ -37,11 +39,10 @@ public class SubTypeMapperTest {
     String testValue2 = "testValue2";
     TestParent expected = new TestConcrete().setArg2(testValue2)
                                             .setArg1(testValue1);
-    byte[] expectedBytes = new ObjectMapper().writeValueAsBytes(expected);
 
-    SubTypeMapper subTypeMapper = new SubTypeMapper(TestParent.class);
+    SubTypeMapper<TestParent> subTypeMapper = new SubTypeMapper<>(TestParent.class);
 
-    Object actual = subTypeMapper.readValue(expectedBytes);
+    Object actual = subTypeMapper.readValue(MPR.writeValueAsString(expected));
 
     assertEquals(TestConcrete.class, actual.getClass());
     TestConcrete actualConcrete = (TestConcrete) actual;
@@ -52,30 +53,29 @@ public class SubTypeMapperTest {
 
   @Test(expected = InvalidTypeIdException.class)
   public void testImpossibleParsing() throws IOException {
-    byte[] bytes = StringUtils.toBytes("{\"TestAbstract\":{\"arg1\":\"testValue1\"}}", "UTF-8");
-
-    SubTypeMapper subTypeMapper = new SubTypeMapper(TestParent.class);
-    Object actual = subTypeMapper.readValue(bytes);
+    String str = "{\"TestAbstract\":{\"arg1\":\"testValue1\"}}";
+    SubTypeMapper<TestParent> subTypeMapper = new SubTypeMapper<>(TestParent.class);
+    Object actual = subTypeMapper.readValue(str);
     assertNull(actual);
 
   }
 
   @Test(expected = InvalidTypeIdException.class)
   public void testIncorrectJsonObject() throws IOException {
-    byte[] bytes = StringUtils.toBytes("{\"blah\":{\"arg1\":\"testValue1\"}}", "UTF-8");
+    String str = "{\"blah\":{\"arg1\":\"testValue1\"}}";
 
-    SubTypeMapper subTypeMapper = new SubTypeMapper(TestParent.class);
-    Object actual = subTypeMapper.readValue(bytes);
+    SubTypeMapper<TestParent> subTypeMapper = new SubTypeMapper<>(TestParent.class);
+    Object actual = subTypeMapper.readValue(str);
     assertNull(actual);
 
   }
 
   @Test(expected = JsonMappingException.class)
   public void testEmptyJson() throws IOException {
-    byte[] bytes = new byte[]{};
 
-    SubTypeMapper subTypeMapper = new SubTypeMapper(TestParent.class);
-    Object actual = subTypeMapper.readValue(bytes);
+
+    SubTypeMapper<TestParent> subTypeMapper = new SubTypeMapper<>(TestParent.class);
+    Object actual = subTypeMapper.readValue("");
     assertNull(actual);
 
   }
@@ -83,19 +83,17 @@ public class SubTypeMapperTest {
 
   @Test(expected = NullPointerException.class)
   public void testNullJson() throws IOException {
-    byte[] bytes = null;
 
-    SubTypeMapper subTypeMapper = new SubTypeMapper(TestParent.class);
-    Object actual = subTypeMapper.readValue(bytes);
+    SubTypeMapper<TestParent> subTypeMapper = new SubTypeMapper<>(TestParent.class);
+    Object actual = subTypeMapper.readValue(null);
     assertNull(actual);
 
   }
 
   @Test
   public void testIgnoreUnknownValuesRequest() throws IOException {
-    byte[] bytes = StringUtils.toBytes("{\"TestConcrete\":{\"arg1\":\"testValue1\",\"arg3\":\"discard\"}}", "UTF-8");
-
-    TestConcrete a = (TestConcrete) new SubTypeMapper(TestParent.class).readValue(bytes);
+    String str = "{\"TestConcrete\":{\"arg1\":\"testValue1\",\"arg3\":\"discard\"}}";
+    TestConcrete a = (TestConcrete) new SubTypeMapper<TestParent>(TestParent.class).readValue(str);
     assertEquals("testValue1", a.getArg1());
   }
 

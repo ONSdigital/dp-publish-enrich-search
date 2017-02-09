@@ -23,8 +23,7 @@ public class RequestTransformerTest {
         testLocation));
     EnrichResourceDocumentsRequest expected = new EnrichResourceDocumentsRequest().setResources(expectedResources);
     ObjectMapper mapper = new ObjectMapper();
-    byte[] expectedBytes = mapper.writeValueAsBytes(expected);
-    Request actual = new RequestTransformer().transform(expectedBytes);
+    Request actual = new RequestTransformer().transform(mapper.writeValueAsString(expected));
     assertEquals(expected, actual);
 
   }

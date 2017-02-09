@@ -30,10 +30,6 @@ public class ContentExtractor {
   }
 
   public List<String> extract() {
-    return extractContent(dataJsonLocation, filePath);
-  }
-
-  private List<String> extractContent(final String dataJsonLocation, final String filePath) {
     List<String> content = null;
     try {
 
