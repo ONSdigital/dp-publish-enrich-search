@@ -1,9 +1,12 @@
 package com.github.onsdigital.index.enrichment.service;
 
+import com.amazonaws.AmazonClientException;
+import com.beust.jcommander.internal.Lists;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.onsdigital.index.enrichment.elastic.ElasticRepository;
 import com.github.onsdigital.index.enrichment.model.*;
 import com.github.onsdigital.index.enrichment.service.analyse.util.ResourceUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +65,7 @@ public class DocumentLoaderService {
    * @param request A request that holds a list of document held in the elastic index
    * @return
    */
+  //TODO Remove once Pipeline interface is agreed
   public List<Data> loadDocuments(EnrichIndexedDocumentsRequest request) {
     LOGGER.info("loadDocument([obj]) : obj {}", request);
 
@@ -80,17 +84,50 @@ public class DocumentLoaderService {
    * @param request a request that holds a reference to a 'Resource' as understood by Spring
    * @return
    */
+  //TODO Remove once Pipeline interface is agreed
   public List<Data> loadResources(EnrichResourceDocumentsRequest request) {
-    LOGGER.info("loadDocument([obj]) : obj {}", request);
+    if (LOGGER.isInfoEnabled()) {
+
+      LOGGER.info("loadDocument([obj]) : loading  {}",
+                  request.getResources()
+                         .stream()
+                         .map(r -> r.getDataFileLocation())
+                         .collect(Collectors.joining(",\n")));
+
+    }
 
     return request.getResources()
                   .stream()
+                  .map(r -> r.getDataFileLocation())
                   .map(this::buildData)
                   .collect(Collectors.toList());
   }
 
-  private Data buildData(ResourceDocument rDoc) {
-    Resource r = resourceLoader.getResource(rDoc.getDataFileLocation());
+  /**
+   * Called by Spring Integration when a new PipelineRequest is provided.
+   * This class will load the class from the S3 location
+   *
+   * @param request a request that holds a reference to a S3 'Resource' as understood by Spring
+   * @return
+   */
+
+  public List<Data> loadPipelineDocument(PipelineRequest request) {
+    String s3Location = request.getS3Location();
+    if (LOGGER.isInfoEnabled()) {
+
+      LOGGER.info("loadPipelineDocument([obj]) : loading  {}", s3Location);
+
+    }
+
+    if (!StringUtils.startsWithIgnoreCase(s3Location,"s3:/")) {
+      s3Location = ResourceUtils.concatenate("s3://", s3Location);
+    }
+    return Lists.newArrayList(this.buildData(s3Location));
+  }
+
+  private Data buildData(String dataFileLocation) {
+
+    Resource r = resourceLoader.getResource(dataFileLocation);
     Data returnData = null;
     try {
 
@@ -100,16 +137,17 @@ public class DocumentLoaderService {
       returnData = new Data().setIndex(INDEX_ALIAS)
                              .setId((String) map.get(ID.getFileProperty()))
                              .setType((String) map.get(TYPE.getFileProperty()))
-                             .setDataFileLocation(rDoc.getDataFileLocation())
+                             .setDataFileLocation(dataFileLocation)
                              .setSource(map)
                              .setRaw(dataJson);
     }
-    catch (IOException e) {
-      LOGGER.error("buildData([r]) : Failed to process resource {}", r);
+    catch (IOException | AmazonClientException e) {
+      LOGGER.error("buildData([r]) : Failed to process resource {}", dataFileLocation);
     }
     return returnData;
   }
 
+  //TODO Remove once Pipeline interface is agreed
   public Data[] loadAllDocuments(EnrichAllIndexedDocumentsRequest request) {
     List<Data> fullIndex = repo.listAllIndexDocuments(request.getIndex());
     LOGGER.info("loadAllDocuments([request]) :  number of Documents {}", fullIndex.size());

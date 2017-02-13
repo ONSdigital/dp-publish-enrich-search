@@ -13,6 +13,17 @@ public class KafkaConfig {
   private String topic;
   private String messageKey;
   private Boolean autoStart;
+
+    private Integer consumers;
+
+    public Integer getConsumers() {
+        return consumers;
+    }
+
+    public KafkaConfig setConsumers(final Integer consumers) {
+        this.consumers = consumers;
+        return this;
+    }
   private ZookeeperConfig zookeeper = new ZookeeperConfig();
 
   public String getTopic() {

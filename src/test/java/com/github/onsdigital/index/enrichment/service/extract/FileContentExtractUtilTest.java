@@ -24,7 +24,7 @@ public class FileContentExtractUtilTest {
 
   private final ResourceLoader rl = new DefaultResourceLoader();
 
-  @Test
+  @Test (expected = FileExtractException.class)
   public void extractTextNotExist() throws Exception {
     Resource resource = rl.getResource("classpath:/doesnotexist.txt");
     List<String> strings = FileContentExtractUtil.extractText(resource);
@@ -47,10 +47,10 @@ public class FileContentExtractUtilTest {
     Resource resource = rl.getResource("classpath:/tobeornottobe.csv");
     List<String> strings = FileContentExtractUtil.extractText(resource);
 
-    assertEquals(1, StringUtils.countMatches(strings.get(0), " be "));
+    assertEquals(4, StringUtils.countMatches(strings.get(0), " be "));
     assertEquals(1, StringUtils.countMatches(strings.get(0), " mind "));
     assertEquals(1, StringUtils.countMatches(strings.get(0), " puzzles "));
-    assertEquals(1, StringUtils.countMatches(strings.get(0), " to "));
+    assertEquals(14, StringUtils.countMatches(strings.get(0), " to "));
 
   }
 

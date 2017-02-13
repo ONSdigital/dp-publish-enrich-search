@@ -22,7 +22,7 @@ public class RequestTransformer implements GenericTransformer<String, Request> {
       request = MAPPER.readValue(source);
     }
     catch (IOException e) {
-      LOGGER.error("transform([source]) : error parsing {} ", new String(source));
+      LOGGER.error("transform([source]) : error parsing {} ", new String(source),e);
     }
     return request;
   }

@@ -23,9 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
-import static com.github.onsdigital.index.enrichment.service.analyse.TextFilterUtil.extractAlphaNumericCaseSensitiveUniqueTokens;
+import static com.github.onsdigital.index.enrichment.service.analyse.TextFilterUtil.extractAlphaNumericString;
 
 /**
  * Extract text content a file
@@ -50,7 +49,7 @@ public class FileContentExtractUtil {
    * @return String containing the text
    */
 
-  public static List<String> extractText(final Resource downloadPath) {
+  public static List<String> extractText(final Resource downloadPath) throws FileExtractException {
     List<String> contentText = null;
     try {
       if (null != downloadPath) {
@@ -64,19 +63,20 @@ public class FileContentExtractUtil {
           String str = extractRawText(downloadPath, documentMetadatas);
 
           if (isTabularContentType(documentMetadatas) || isTabularFileName(documentMetadatas)) {
-            str = extractAlphaNumericCaseSensitiveUniqueTokens(str).stream()
-                                                                   .collect(Collectors.joining(" "));
+              str = extractAlphaNumericString(str);
           }
           contentText = Lists.newArrayList(str);
         }
       }
       else {
-        LOGGER.error("extractContent([pageURI, filePath]) : file {} can not be found and can not be loaded");
+          throw new FileExtractException("downloadPath is null");
       }
     }
-    catch (TikaException | IOException  te) {
-      LOGGER.error("extractContent([pageURI, filePath]) : error extracting file {} ", te.getMessage(), te);
+    catch (IOException e) {
+        LOGGER.error("extractContent([pageURI, filePath]) : error extracting file {} ", e.getMessage(), e);
+        throw new FileExtractException("Filed to Extract Tokens", e);
     }
+
     return contentText;
 
   }
@@ -131,7 +131,7 @@ public class FileContentExtractUtil {
    */
 
   private static String extractRawText(final Resource resource,
-                                       final List<Metadata> documentMetadatas) throws IOException, TikaException {
+                                       final List<Metadata> documentMetadatas) throws FileExtractException {
     WriteOutContentHandler handler =
         new WriteOutContentHandler(Integer.MAX_VALUE);
 
@@ -152,11 +152,8 @@ public class FileContentExtractUtil {
       context.set(Parser.class, parser);
       parser.parse(stream, new BodyContentHandler(handler), parentMetadata, context);
     }
-    catch (SAXException e) {
-      if (!handler.isWriteLimitReached(e)) {
-        // This should never happen with BodyContentHandler...
-        throw new TikaException("Unexpected SAX processing failure", e);
-      }
+    catch (SAXException | IllegalArgumentException | IOException | TikaException e) {
+        throw new FileExtractException("Unexpected File processing failure :" + resource.getDescription(), e);
     }
     return handler.toString();
   }

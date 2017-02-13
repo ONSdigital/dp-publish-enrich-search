@@ -22,6 +22,26 @@ public class KafkaConsumerConfig {
   private Integer autoCommitInterval;
   private String valueDeserializer;
   private String keyDeserializer;
+  private Integer maxPollRecords;
+  private Integer maxPollInterval;
+
+  public Integer getMaxPollRecords() {
+    return maxPollRecords;
+  }
+
+  public KafkaConsumerConfig setMaxPollRecords(final Integer maxPollRecords) {
+    this.maxPollRecords = maxPollRecords;
+    return this;
+  }
+
+  public Integer getMaxPollInterval() {
+    return maxPollInterval;
+  }
+
+  public KafkaConsumerConfig setMaxPollInterval(final Integer maxPollInterval) {
+    this.maxPollInterval = maxPollInterval;
+    return this;
+  }
 
   public KafkaConfig getKafkaCommonConfig() {
     return kafkaCommonConfig;
@@ -105,6 +125,14 @@ public class KafkaConsumerConfig {
 
     if (null != autoCommitInterval) {
       config.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, autoCommitInterval);
+    }
+
+    if (null != maxPollRecords) {
+      config.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecords);
+    }
+
+    if (null != maxPollInterval) {
+      config.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollInterval);
     }
 
     return config;

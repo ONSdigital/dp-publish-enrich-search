@@ -15,6 +15,7 @@ kafka:
   topic: dp.enrichment
   message-key: si.key
   auto-start: false
+  consumers: 6
 spring:
   main:
      web-environment: false
@@ -23,6 +24,8 @@ spring:
       group-id: dpEnrichedPublishedDocument
       enable-auto-commit: true
       auto-commit-interval: 100
+      max-poll-interval: 300000
+      max-poll-records: 1
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 

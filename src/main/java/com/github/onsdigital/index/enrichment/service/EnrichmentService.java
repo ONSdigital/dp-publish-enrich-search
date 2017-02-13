@@ -49,7 +49,7 @@ public class EnrichmentService {
    */
   public Data enrichDocument(final Data data) throws IOException {
 
-    LOGGER.info("enrichDocument([obj]) : obj {}", data);
+    LOGGER.info("enrichDocument([obj]) : obj {}", data.getId());
 
 
     Object downloads = data.getSource()

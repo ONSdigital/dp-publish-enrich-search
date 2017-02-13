@@ -15,15 +15,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.kafka.Kafka;
 import org.springframework.integration.dsl.kafka.KafkaMessageDrivenChannelAdapterSpec;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.AbstractMessageListenerContainer;
-import org.springframework.kafka.listener.KafkaMessageListenerContainer;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.config.ContainerProperties;
-
-import java.util.concurrent.Executors;
 
 /**
  * Created by fawks on 31/01/2017.
@@ -31,54 +28,65 @@ import java.util.concurrent.Executors;
 @Configuration
 public class ConsumerDefinition {
 
-  public static ObjectMapper MAPPER = new ObjectMapper();
+    public static ObjectMapper MAPPER = new ObjectMapper();
 
-  static {
-    MAPPER.registerSubtypes(EnrichAllIndexedDocumentsRequest.class,
-                            EnrichIndexedDocumentsRequest.class,
-                            EnrichResourceDocumentsRequest.class);
-  }
+    static {
+        MAPPER.registerSubtypes(EnrichAllIndexedDocumentsRequest.class,
+                                EnrichIndexedDocumentsRequest.class,
+                                EnrichResourceDocumentsRequest.class);
+    }
 
-  @Autowired
-  private KafkaConsumerConfig kafkaListenerConfig;
 
-  @Autowired
-  private KafkaConfig kafkaConfig;
+    @Autowired
+    private KafkaConsumerConfig kafkaListenerConfig;
 
-  @Autowired
-  private DocumentLoaderService loadDocumentService;
+    @Autowired
+    private KafkaConfig kafkaConfig;
 
-  @Autowired
-  private EnrichmentService enrichmentService;
-  @Autowired
-  private UpsertService upsertService;
+    @Autowired
+    private DocumentLoaderService loadDocumentService;
 
-  @Bean
-  public IntegrationFlow fromKafka(AbstractMessageListenerContainer container) {
-    KafkaMessageDrivenChannelAdapterSpec messageConsumer = Kafka.messageDrivenChannelAdapter(container);
-    messageConsumer.ackDiscarded(true);
+    @Autowired
+    private EnrichmentService enrichmentService;
+    @Autowired
+    private UpsertService upsertService;
 
-    return IntegrationFlows
-        .from(messageConsumer)
-        .transform(new RequestTransformer())
-        .handle(loadDocumentService)
-        .split()
-        .channel(MessageChannels.executor("enrich", Executors.newFixedThreadPool(12)))
-        .handle(enrichmentService)
-        .handle(upsertService)
-        .get();
-  }
 
-  @Bean
-  public KafkaMessageListenerContainer<?, ?> kafkaMessageListenerContainer(DefaultKafkaConsumerFactory factory) {
-    ContainerProperties props = new ContainerProperties(kafkaConfig.getTopic());
-    return new KafkaMessageListenerContainer(factory, props);
-  }
+    @Bean
+    public IntegrationFlow fromKafka(AbstractMessageListenerContainer container) {
+        KafkaMessageDrivenChannelAdapterSpec messageConsumer = Kafka.messageDrivenChannelAdapter(container);
+        messageConsumer.ackDiscarded(true);
 
-  @Bean
-  public DefaultKafkaConsumerFactory<?, ?> kafkaConsumerFactory() {
-    return new DefaultKafkaConsumerFactory<Integer, String>(this.kafkaListenerConfig.getConfig());
-  }
 
+        return IntegrationFlows
+                .from(messageConsumer)
+                //TODO Determine Transactional requirements - can we fail back onto the Kafka queue if we have
+//            .channel(MessageChannels.executor("transform", Executors.newFixedThreadPool(3)))
+                .transform(new RequestTransformer())
+                .handle(loadDocumentService)
+                .split()
+                // TODO Determine Transactional requirements - can we fail back onto the Kafka queue
+//            .channel(MessageChannels.executor("enrich", Executors.newFixedThreadPool(10)))
+                .handle(enrichmentService)
+                .handle(upsertService)
+                .get();
+    }
+
+
+    @Bean
+    public DefaultKafkaConsumerFactory<?, ?> kafkaConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<Integer, String>(this.kafkaListenerConfig.getConfig());
+    }
+
+    @Bean
+    public ConcurrentMessageListenerContainer<?, ?> concurrentKafkaMessageListenerContainer(
+            DefaultKafkaConsumerFactory factory) {
+        ContainerProperties props = new ContainerProperties(kafkaConfig.getTopic());
+        ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer(factory,
+                                                                                              props);
+        container.setConcurrency(kafkaConfig.getConsumers());
+
+        return container;
+    }
 
 }

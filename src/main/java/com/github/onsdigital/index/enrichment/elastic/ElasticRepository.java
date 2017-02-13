@@ -64,11 +64,12 @@ public class ElasticRepository {
     UpdateResponse updateResponse = updateRequestBuilder.execute()
                                                         .actionGet();
 
-    LOGGER.info("upsertData([id => {}, index => {}, type => {}, updatedSource]) : ",
+    LOGGER.info("upsertData([id => {}, index => {}, type => {}, was it new? ={}, version ={} ]) : ",
                 id,
                 index,
                 type,
-                updateResponse.isCreated());
+                updateResponse.isCreated(),
+                updateResponse.getVersion());
 
   }
 

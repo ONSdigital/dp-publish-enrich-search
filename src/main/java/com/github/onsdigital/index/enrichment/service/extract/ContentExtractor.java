@@ -33,10 +33,16 @@ public class ContentExtractor {
     List<String> content = null;
     try {
 
-      content = extractText(resolveDownloadPath(dataJsonLocation, filePath));
+      Resource downloadPath = resolveDownloadPath(dataJsonLocation, filePath);
+      if (null != downloadPath) {
+        content = extractText(downloadPath);
+      }
+      else {
+        LOGGER.warn("extract([]) : Skipping  {} as not available for page {}",filePath,dataJsonLocation);
+      }
 
     }
-    catch (IOException e) {
+    catch (IOException | FileExtractException e) {
       LOGGER.error("extractContent([pageURI, filePath]) : failed to parser file '{}' with error {} for page {}",
                    filePath,
                    e.getMessage(),
@@ -52,7 +58,7 @@ public class ContentExtractor {
    * @return
    */
 
-  private List<String> extractText(final Resource downloadPath) {
+  private List<String> extractText(final Resource downloadPath) throws FileExtractException {
     return FileContentExtractUtil.extractText(downloadPath);
   }
 
