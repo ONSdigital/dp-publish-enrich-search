@@ -25,7 +25,7 @@ public class UpsertService {
    * @return
    */
   public void upsertDocument(Data obj) {
-    LOGGER.info("upsertDocument([obj]) : id {}", obj.getId());
+    LOGGER.debug("upsertDocument([obj]) : id {}", obj.getId());
     repo.upsertData(obj.getId(), obj.getIndex(), obj.getType(), obj.getSource());
   }
 }

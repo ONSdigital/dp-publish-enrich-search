@@ -67,7 +67,7 @@ public class DocumentLoaderService {
    */
   //TODO Remove once Pipeline interface is agreed
   public List<Data> loadDocuments(EnrichIndexedDocumentsRequest request) {
-    LOGGER.info("loadDocument([obj]) : obj {}", request);
+    LOGGER.debug("loadDocument([obj]) : obj {}", request);
 
     return request.getDocuments()
                   .stream()
@@ -86,9 +86,9 @@ public class DocumentLoaderService {
    */
   //TODO Remove once Pipeline interface is agreed
   public List<Data> loadResources(EnrichResourceDocumentsRequest request) {
-    if (LOGGER.isInfoEnabled()) {
+    if (LOGGER.isDebugEnabled()) {
 
-      LOGGER.info("loadDocument([obj]) : loading  {}",
+      LOGGER.debug("loadDocument([obj]) : loading  {}",
                   request.getResources()
                          .stream()
                          .map(r -> r.getDataFileLocation())
@@ -115,7 +115,7 @@ public class DocumentLoaderService {
     String s3Location = request.getS3Location();
     if (LOGGER.isInfoEnabled()) {
 
-      LOGGER.info("loadPipelineDocument([obj]) : loading  {}", s3Location);
+      LOGGER.debug("loadPipelineDocument([obj]) : loading  {}", s3Location);
 
     }
 
@@ -150,7 +150,7 @@ public class DocumentLoaderService {
   //TODO Remove once Pipeline interface is agreed
   public Data[] loadAllDocuments(EnrichAllIndexedDocumentsRequest request) {
     List<Data> fullIndex = repo.listAllIndexDocuments(request.getIndex());
-    LOGGER.info("loadAllDocuments([request]) :  number of Documents {}", fullIndex.size());
+    LOGGER.debug("loadAllDocuments([request]) :  number of Documents {}", fullIndex.size());
     return fullIndex.toArray(new Data[fullIndex.size()]);
   }
 
