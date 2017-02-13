@@ -3,8 +3,8 @@ root-dir: s3://ons-web-data/publishing/2017-01-23/master/
 cloud:
   aws:
     credentials:
-      accessKey: AKIAIX65FEZKPY3H6AHQ
-      secretKey: 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
+      accessKey: ${S3_ACCESS_KEY}
+      secretKey: ${S3_SECRET_ACCESS_KEY}
       instanceProfile: true
     region:
       static: eu-west-1
