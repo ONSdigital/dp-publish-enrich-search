@@ -22,8 +22,6 @@ public class Application {
     run = new SpringApplicationBuilder(Application.class).bannerMode(Banner.Mode.OFF)
                                                          .run(args);
     run.registerShutdownHook();
-
-
   }
 
 }

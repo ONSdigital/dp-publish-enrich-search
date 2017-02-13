@@ -33,11 +33,15 @@
         </encoder>
     </appender>
 
+
     <logger name="org.apache.pdfbox.pdmodel.font" level="ERROR"/>
     <logger name="org.apache.fontbox.ttf" level="ERROR"/>
     <logger name="org.apache.poi.ss.format" level="ERROR"/>
+    <logger name="org.apache.kafka" level="INFO"/>
 
-    <root level="INFO">
+    <logger name="com.github.onsdigital.index.enrichment" level="DEBUG"/>
+
+    <root level="WARN">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>

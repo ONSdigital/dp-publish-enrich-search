@@ -1,3 +1,4 @@
+
 root-dir: s3://ons-web-data/publishing/2017-01-23/master/
 
 cloud:
@@ -35,6 +36,8 @@ spring:
       retries: 0
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  application:
+    name: EnrichSearch
 
 elasticsearch:
 #  cluster-name: ONSCluster
