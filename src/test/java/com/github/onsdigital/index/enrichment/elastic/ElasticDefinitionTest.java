@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by fawks on 07/02/2017.
  */
 public class ElasticDefinitionTest {
+
   @Test
   public void elasticClient() throws Exception {
     Boolean ignoreClusterName = true;

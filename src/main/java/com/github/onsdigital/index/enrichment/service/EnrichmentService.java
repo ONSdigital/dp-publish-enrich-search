@@ -26,6 +26,7 @@ import static com.github.onsdigital.index.enrichment.model.ModelEnum.PAGEDATA;
 public class EnrichmentService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(EnrichmentService.class);
+  public static final String UPDATED_AT = "updatedAt";
 
   ContentExtractorFactory getExtractorFactory() {
     return extractorFactory;
@@ -49,7 +50,7 @@ public class EnrichmentService {
    */
   public Data enrichDocument(final Data data) throws IOException {
 
-    LOGGER.info("enrichDocument([obj]) : obj {}", data.getId());
+    LOGGER.debug("enrichDocument([obj]) : obj {}", data.getId());
 
 
     Object downloads = data.getSource()
@@ -84,7 +85,7 @@ public class EnrichmentService {
 
     final String file = (String) download.get(FILE.getFileProperty());
     download.put(CONTENT.getIndexDocProperty(), extractContent(dataJsonLocation, file));
-    download.put("updatedAt", new Date());
+    download.put(UPDATED_AT, new Date());
     return download;
   }
 

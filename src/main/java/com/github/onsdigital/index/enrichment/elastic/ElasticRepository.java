@@ -64,6 +64,7 @@ public class ElasticRepository {
     UpdateResponse updateResponse = updateRequestBuilder.execute()
                                                         .actionGet();
 
+
     LOGGER.info("upsertData([id => {}, index => {}, type => {}, was it new? ={}, version ={} ]) : ",
                 id,
                 index,
