@@ -7,6 +7,7 @@ Currently all invocations are via kafka, but a REST api could easily be added us
 
 ##Kafka messages requests
 By default this micro-service listens to a single kafka topic `dp.enrichment` and then uses the wrapping object to determine the next step.
+
  
 ###Enrich a single resources
 Currently we are using a simple 'non-wrapped' 
@@ -18,6 +19,12 @@ Currently we are using a simple 'non-wrapped'
 }
 ```
 
+##Running
+To run the application locally run the `./run.sh` in the root directory, this will initiates a Maven&trade; clean rebuild (`mvn clean install`).
+The Kafka consumer is listening to a inbound topic of `dp.enrichment` 
+
+### Configuration 
+Configuration is all located in a single Yaml file [application.yml](src/main/resources/application.yml)
 
 ##Design
 

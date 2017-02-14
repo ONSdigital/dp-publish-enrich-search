@@ -36,7 +36,7 @@ public class ResourceUtils {
 
     public static String substituteFileName(String originalFile, String replacementFilename) {
 
-        //Get the just the filename as the the file should be in the same directort as the dataJson
+        //Get the just the filename as the the file should be in the same directory as the dataJson
         String fileName = FilenameUtils.getName(replacementFilename);
         String fullPath = FilenameUtils.getFullPath(originalFile);
 

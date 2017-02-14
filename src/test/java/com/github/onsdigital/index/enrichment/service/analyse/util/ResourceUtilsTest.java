@@ -91,7 +91,7 @@ public class ResourceUtilsTest {
         assertTrue(ResourceUtils.noProtocolDefinition("/blah/blah1"));
         assertTrue(ResourceUtils.noProtocolDefinition("g:/blah/blah1"));
         assertTrue(ResourceUtils.noProtocolDefinition("s://blah/blah1"));
-        assertTrue(ResourceUtils.noProtocolDefinition("s3://blah/blah1"));
+        assertFalse(ResourceUtils.noProtocolDefinition("s3://blah/blah1"));
         assertFalse(ResourceUtils.noProtocolDefinition("file:blah/blah1"));
         assertFalse(ResourceUtils.noProtocolDefinition("http://blah/blah1"));
         assertFalse(ResourceUtils.noProtocolDefinition("classpath:blah/blah1"));
