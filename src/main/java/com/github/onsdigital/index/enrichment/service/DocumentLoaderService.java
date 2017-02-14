@@ -15,6 +15,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,6 +40,7 @@ public class DocumentLoaderService {
 
   @Autowired
   private ElasticRepository repo;
+  public static final String MESSAGE = "Failed to process resource %s";
 
   ResourceLoader getResourceLoader() {
     return resourceLoader;
@@ -85,7 +87,7 @@ public class DocumentLoaderService {
    * @return
    */
   //TODO Remove once Pipeline interface is agreed
-  public List<Data> loadResources(EnrichResourceDocumentsRequest request) {
+  public List<Data> loadResources(EnrichResourceDocumentsRequest request) throws EnrichServiceException {
     if (LOGGER.isDebugEnabled()) {
 
       LOGGER.debug("loadDocument([obj]) : loading  {}",
@@ -95,12 +97,13 @@ public class DocumentLoaderService {
                          .collect(Collectors.joining(",\n")));
 
     }
+    List<Data> list = new ArrayList<>();
+    for (ResourceDocument resourceDocument : request.getResources()) {
+      String r = resourceDocument.getDataFileLocation();
+      list.add(buildData(r));
+    }
+    return list;
 
-    return request.getResources()
-                  .stream()
-                  .map(r -> r.getDataFileLocation())
-                  .map(this::buildData)
-                  .collect(Collectors.toList());
   }
 
   /**
@@ -111,7 +114,7 @@ public class DocumentLoaderService {
    * @return
    */
 
-  public List<Data> loadPipelineDocument(PipelineRequest request) {
+  public List<Data> loadPipelineDocument(PipelineRequest request) throws EnrichServiceException {
     String s3Location = request.getS3Location();
     if (LOGGER.isInfoEnabled()) {
 
@@ -119,13 +122,21 @@ public class DocumentLoaderService {
 
     }
 
-    if (!StringUtils.startsWithIgnoreCase(s3Location,"s3:/")) {
+    if (noProtocolDefinition(s3Location)) {
+      //Default to S3
       s3Location = ResourceUtils.concatenate("s3://", s3Location);
     }
     return Lists.newArrayList(this.buildData(s3Location));
   }
 
-  private Data buildData(String dataFileLocation) {
+  private boolean noProtocolDefinition(final String s3Location) {
+    return !(StringUtils.startsWithIgnoreCase(s3Location, "s3:/")
+            || StringUtils.startsWithIgnoreCase(s3Location, "file:")
+            || StringUtils.startsWithIgnoreCase(s3Location, "http:")
+            || StringUtils.startsWithIgnoreCase(s3Location, "classpath:"));
+  }
+
+  private Data buildData(String dataFileLocation) throws EnrichServiceException {
 
     Resource r = resourceLoader.getResource(dataFileLocation);
     Data returnData = null;
@@ -142,7 +153,10 @@ public class DocumentLoaderService {
                              .setRaw(dataJson);
     }
     catch (IOException | AmazonClientException e) {
-      LOGGER.error("buildData([r]) : Failed to process resource {}", dataFileLocation);
+      String msg = String.format(MESSAGE, dataFileLocation);
+      LOGGER.error("buildData([r]) : " + msg, e);
+      throw new EnrichServiceException(msg, e);
+
     }
     return returnData;
   }
