@@ -14,26 +14,26 @@ import java.util.Set;
  */
 class ONSTypeTokenFilterFactory extends TokenFilterFactory {
 
-  private Set<String> types;
-  private boolean useWhiteList;
+    private Set<String> types;
+    private boolean useWhiteList;
 
-  ONSTypeTokenFilterFactory(final Set<String> types, final boolean useWhiteList) {
-    super(new HashMap<>());
-    this.types = types;
-    this.useWhiteList = useWhiteList;
-  }
+    ONSTypeTokenFilterFactory(final Set<String> types, final boolean useWhiteList) {
+        super(new HashMap<>());
+        this.types = types;
+        this.useWhiteList = useWhiteList;
+    }
 
 
-  /**
-   * Creates the tokenFilter
-   *
-   * @param input
-   * @return TypeTokenFilter as a TokenStream
-   */
-  @Override
-  public TokenStream create(final TokenStream input) {
-    return new TypeTokenFilter(input,
-                               this.types,
-                               this.useWhiteList);
-  }
+    /**
+     * Creates the tokenFilter
+     *
+     * @param input
+     * @return TypeTokenFilter as a TokenStream
+     */
+    @Override
+    public TokenStream create(final TokenStream input) {
+        return new TypeTokenFilter(input,
+                                   this.types,
+                                   this.useWhiteList);
+    }
 }

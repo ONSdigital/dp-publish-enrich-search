@@ -22,7 +22,7 @@ public class ErrorService {
     public void error(MessageHandlingException obj) {
         //Just Log at the moment
         LOGGER.warn("error([MessageHandlingException]) : Error Class {}", obj.getClass());
-        LOGGER.warn("error([MessageHandlingException]) : Error received {}", obj.getMessage(),obj);
+        LOGGER.warn("error([MessageHandlingException]) : Error received {}", obj.getMessage(), obj);
 
     }
 

@@ -15,37 +15,37 @@ import java.util.stream.Collectors;
  * <I>Beware that the classes being subtypes must be in a child directory of <code>com.github.onsdigital</code></I>
  */
 public class SubTypeMapper<T> {
-  /**
-   * The root package for the scanner
-   */
-  private static final String ROOT_PACKAGE = "com.github.onsdigital";
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-  private final Class<T> parentType;
+    /**
+     * The root package for the scanner
+     */
+    private static final String ROOT_PACKAGE = "com.github.onsdigital";
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private final Class<T> parentType;
 
-  public SubTypeMapper(Class<T> parentType) {
-    this.parentType = parentType;
-    Reflections reflections = new Reflections(ROOT_PACKAGE);
+    public SubTypeMapper(Class<T> parentType) {
+        this.parentType = parentType;
+        Reflections reflections = new Reflections(ROOT_PACKAGE);
 
-    Set<Class<? extends T>> requestClasses = reflections.getSubTypesOf(parentType)
-                                                        .stream()
-                                                        .filter(t -> {
-                                                          int modifiers = t.getModifiers();
-                                                          return !Modifier.isAbstract(modifiers)
-                                                              && !Modifier.isInterface(modifiers);
-                                                        })
-                                                        .collect(Collectors.toSet());
+        Set<Class<? extends T>> requestClasses = reflections.getSubTypesOf(parentType)
+                                                            .stream()
+                                                            .filter(t -> {
+                                                                int modifiers = t.getModifiers();
+                                                                return !Modifier.isAbstract(modifiers)
+                                                                        && !Modifier.isInterface(modifiers);
+                                                            })
+                                                            .collect(Collectors.toSet());
 
-    MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    assignSubtypes(requestClasses);
+        MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        assignSubtypes(requestClasses);
 
-  }
+    }
 
-  void assignSubtypes(final Set<Class<? extends T>> requestClasses) {
-    MAPPER.registerSubtypes(requestClasses.toArray(new Class[requestClasses.size()]));
-  }
+    void assignSubtypes(final Set<Class<? extends T>> requestClasses) {
+        MAPPER.registerSubtypes(requestClasses.toArray(new Class[requestClasses.size()]));
+    }
 
-  public T readValue(final String source) throws IOException {
-    return MAPPER.readValue(source, parentType);
+    public T readValue(final String source) throws IOException {
+        return MAPPER.readValue(source, parentType);
 
-  }
+    }
 }

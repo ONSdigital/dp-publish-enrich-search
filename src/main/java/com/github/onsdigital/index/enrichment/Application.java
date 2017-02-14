@@ -15,13 +15,13 @@ import org.springframework.integration.config.EnableIntegration;
 @SpringBootApplication
 @EnableIntegration
 public class Application {
-  static ConfigurableApplicationContext run;
+    static ConfigurableApplicationContext run;
 
 
-  public static void main(String args[]) {
-    run = new SpringApplicationBuilder(Application.class).bannerMode(Banner.Mode.OFF)
-                                                         .run(args);
-    run.registerShutdownHook();
-  }
+    public static void main(String args[]) {
+        run = new SpringApplicationBuilder(Application.class).bannerMode(Banner.Mode.OFF)
+                                                             .run(args);
+        run.registerShutdownHook();
+    }
 
 }

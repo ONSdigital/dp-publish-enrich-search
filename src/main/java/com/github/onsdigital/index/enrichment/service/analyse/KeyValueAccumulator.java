@@ -8,5 +8,5 @@ package com.github.onsdigital.index.enrichment.service.analyse;
  */
 @FunctionalInterface
 public interface KeyValueAccumulator {
-  void put(String k, String v);
+    void put(String k, String v);
 }

@@ -9,35 +9,35 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class ResourceDocument {
 
-  private String dataFileLocation;
+    private String dataFileLocation;
 
-  @Override
-  public boolean equals(final Object o) {
-    if (this == o) {
-      return true;
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final ResourceDocument rhs = (ResourceDocument) o;
+        final ResourceDocument lhs = this;
+        return new EqualsBuilder().append(lhs.getDataFileLocation(), rhs.getDataFileLocation())
+                                  .isEquals();
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(getDataFileLocation())
+                                    .toHashCode();
     }
 
-    final ResourceDocument rhs = (ResourceDocument) o;
-    final ResourceDocument lhs = this;
-    return new EqualsBuilder().append(lhs.getDataFileLocation(), rhs.getDataFileLocation())
-                              .isEquals();
-  }
+    public String getDataFileLocation() {
+        return dataFileLocation;
+    }
 
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(getDataFileLocation())
-                                .toHashCode();
-  }
-
-  public String getDataFileLocation() {
-    return dataFileLocation;
-  }
-
-  public ResourceDocument setDataFileLocation(final String dataFileLocation) {
-    this.dataFileLocation = dataFileLocation;
-    return this;
-  }
+    public ResourceDocument setDataFileLocation(final String dataFileLocation) {
+        this.dataFileLocation = dataFileLocation;
+        return this;
+    }
 }

@@ -8,37 +8,37 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public class EnrichAllIndexedDocumentsRequest implements Request {
 
-  String index;
+    String index;
 
-  public String getIndex() {
-    return index;
-  }
-
-  public EnrichAllIndexedDocumentsRequest setIndex(final String index) {
-    this.index = index;
-    return this;
-  }
-
-  @Override
-  public boolean equals(final Object o) {
-    if (this == o) {
-      return true;
+    public String getIndex() {
+        return index;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    public EnrichAllIndexedDocumentsRequest setIndex(final String index) {
+        this.index = index;
+        return this;
     }
-    EnrichAllIndexedDocumentsRequest rhs = (EnrichAllIndexedDocumentsRequest) o;
-    EnrichAllIndexedDocumentsRequest lhs = this;
 
-    return new EqualsBuilder().append(lhs.getIndex(), rhs.getIndex())
-                              .isEquals();
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        EnrichAllIndexedDocumentsRequest rhs = (EnrichAllIndexedDocumentsRequest) o;
+        EnrichAllIndexedDocumentsRequest lhs = this;
+
+        return new EqualsBuilder().append(lhs.getIndex(), rhs.getIndex())
+                                  .isEquals();
 
 
-  }
+    }
 
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(this.getIndex())
-                                .toHashCode();
-  }
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.getIndex())
+                                    .toHashCode();
+    }
 }

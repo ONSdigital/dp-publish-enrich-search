@@ -10,38 +10,38 @@ import java.util.List;
  */
 public class EnrichResourceDocumentsRequest implements Request {
 
-  List<ResourceDocument> resources;
+    List<ResourceDocument> resources;
 
-  public List<ResourceDocument> getResources() {
-    return resources;
-  }
-
-  public EnrichResourceDocumentsRequest setResources(final List<ResourceDocument> resources) {
-    this.resources = resources;
-    return this;
-  }
-
-  @Override
-  public boolean equals(final Object o) {
-    if (this == o) {
-      return true;
+    public List<ResourceDocument> getResources() {
+        return resources;
     }
 
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    public EnrichResourceDocumentsRequest setResources(final List<ResourceDocument> resources) {
+        this.resources = resources;
+        return this;
     }
 
-    final EnrichResourceDocumentsRequest rhs = (EnrichResourceDocumentsRequest) o;
-    final EnrichResourceDocumentsRequest lhs = this;
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
 
-    return new EqualsBuilder().append(lhs.resources, rhs.resources)
-                              .isEquals();
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-  }
+        final EnrichResourceDocumentsRequest rhs = (EnrichResourceDocumentsRequest) o;
+        final EnrichResourceDocumentsRequest lhs = this;
 
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(resources)
-                                .toHashCode();
-  }
+        return new EqualsBuilder().append(lhs.resources, rhs.resources)
+                                  .isEquals();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(resources)
+                                    .toHashCode();
+    }
 }

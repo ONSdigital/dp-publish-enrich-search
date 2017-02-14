@@ -5,8 +5,8 @@ package com.github.onsdigital.index.enrichment.aws;
  */
 public class AwsDefinition {
 
-  public void awsCredentials(AwsConfiguration config) {
+    public void awsCredentials(AwsConfiguration config) {
 
 
-  }
+    }
 }

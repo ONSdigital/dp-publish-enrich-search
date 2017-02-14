@@ -22,40 +22,40 @@ import java.net.UnknownHostException;
 
 public class ElasticDefinition {
 
-  private TransportClient client;
+    private TransportClient client;
 
 
-  @Bean
-  public TransportClient elasticClient(ElasticConfig config) throws UnknownHostException {
-    Settings settings = buildSettings(config);
+    @Bean
+    public TransportClient elasticClient(ElasticConfig config) throws UnknownHostException {
+        Settings settings = buildSettings(config);
 
-    client = TransportClient.builder()
-                            .settings(settings)
-                            .build();
+        client = TransportClient.builder()
+                                .settings(settings)
+                                .build();
 //Add transport addresses and do something with the client...
-    for (InetAddressConfig addr : config.getInetAddresses()) {
-      client.addTransportAddress(
-          new InetSocketTransportAddress(InetAddress.getByName(addr.getHost()), addr.getPort()));
+        for (InetAddressConfig addr : config.getInetAddresses()) {
+            client.addTransportAddress(
+                    new InetSocketTransportAddress(InetAddress.getByName(addr.getHost()), addr.getPort()));
+        }
+
+        return client;
+
     }
 
-    return client;
+    private Settings buildSettings(final ElasticConfig config) {
+        Settings.Builder builder = Settings.settingsBuilder();
 
-  }
+        if (StringUtils.isNotBlank(config.getClusterName())) {
+            builder.put("cluster.name", config.getClusterName());
+        }
 
-  private Settings buildSettings(final ElasticConfig config) {
-    Settings.Builder builder = Settings.settingsBuilder();
+        if (BooleanUtils.isTrue(config.isIgnoreClusterName())) {
+            builder.put("client.transport.ignore_cluster_name",
+                        config.isIgnoreClusterName()
+                              .booleanValue());
+        }
 
-    if (StringUtils.isNotBlank(config.getClusterName())) {
-      builder.put("cluster.name", config.getClusterName());
+        return builder.build();
     }
-
-    if (BooleanUtils.isTrue(config.isIgnoreClusterName())) {
-      builder.put("client.transport.ignore_cluster_name",
-                  config.isIgnoreClusterName()
-                        .booleanValue());
-    }
-
-    return builder.build();
-  }
 
 }

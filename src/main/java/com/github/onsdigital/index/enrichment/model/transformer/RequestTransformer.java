@@ -11,19 +11,19 @@ import java.io.IOException;
  * Request and its subtype Spring Transformer
  */
 public class RequestTransformer implements GenericTransformer<String, Request> {
-  private static final Logger LOGGER = LoggerFactory.getLogger(RequestTransformer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestTransformer.class);
 
-  private static final SubTypeMapper<Request> MAPPER = new SubTypeMapper<>(Request.class);
+    private static final SubTypeMapper<Request> MAPPER = new SubTypeMapper<>(Request.class);
 
-  @Override
-  public Request transform(final String source) {
-    Request request = null;
-    try {
-      request = MAPPER.readValue(source);
+    @Override
+    public Request transform(final String source) {
+        Request request = null;
+        try {
+            request = MAPPER.readValue(source);
+        }
+        catch (IOException e) {
+            LOGGER.error("transform([source]) : error parsing {} ", new String(source), e);
+        }
+        return request;
     }
-    catch (IOException e) {
-      LOGGER.error("transform([source]) : error parsing {} ", new String(source),e);
-    }
-    return request;
-  }
 }

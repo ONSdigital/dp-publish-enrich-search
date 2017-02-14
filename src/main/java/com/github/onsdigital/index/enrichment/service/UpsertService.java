@@ -13,19 +13,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpsertService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UpsertService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpsertService.class);
 
-  @Autowired
-  private ElasticRepository repo;
+    @Autowired
+    private ElasticRepository repo;
 
-  /**
-   * Called by Spring Integration when a new Data is and has been enriched.
-   *
-   * @param obj
-   * @return
-   */
-  public void upsertDocument(Data obj) {
-    LOGGER.debug("upsertDocument([obj]) : id {}", obj.getId());
-    repo.upsertData(obj.getId(), obj.getIndex(), obj.getType(), obj.getSource());
-  }
+    /**
+     * Called by Spring Integration when a new Data is and has been enriched.
+     *
+     * @param obj
+     * @return
+     */
+    public void upsertDocument(Data obj) {
+        LOGGER.debug("upsertDocument([obj]) : id {}", obj.getId());
+        repo.upsertData(obj.getId(), obj.getIndex(), obj.getType(), obj.getSource());
+    }
 }

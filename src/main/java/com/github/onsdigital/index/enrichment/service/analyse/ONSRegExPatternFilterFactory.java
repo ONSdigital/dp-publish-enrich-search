@@ -13,26 +13,26 @@ import java.util.HashMap;
 class ONSRegExPatternFilterFactory extends TokenFilterFactory {
 
 
-  private final String regex;
-  private boolean exclude;
+    private final String regex;
+    private boolean exclude;
 
-  ONSRegExPatternFilterFactory(final String regex, final boolean exclude) {
-    super(new HashMap<>());
-    this.regex = regex;
-    this.exclude = exclude;
-  }
+    ONSRegExPatternFilterFactory(final String regex, final boolean exclude) {
+        super(new HashMap<>());
+        this.regex = regex;
+        this.exclude = exclude;
+    }
 
 
-  /**
-   * Creates the tokenFilter
-   *
-   * @param input
-   * @return TypeTokenFilter as a TokenStream
-   */
-  @Override
-  public TokenStream create(final TokenStream input) {
-    return new RegExPatternFilter(input,
-                                  this.regex,
-                                  this.exclude);
-  }
+    /**
+     * Creates the tokenFilter
+     *
+     * @param input
+     * @return TypeTokenFilter as a TokenStream
+     */
+    @Override
+    public TokenStream create(final TokenStream input) {
+        return new RegExPatternFilter(input,
+                                      this.regex,
+                                      this.exclude);
+    }
 }

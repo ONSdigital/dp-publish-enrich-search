@@ -11,31 +11,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContentExtractorFactory {
 
-  @Autowired
-  private ResourceLoader resourceLoader;
-  @Value("${root-dir}")
-  private String rootFolder;
+    @Autowired
+    private ResourceLoader resourceLoader;
+    @Value("${root-dir}")
+    private String rootFolder;
 
-  public String getRootFolder() {
-    return rootFolder;
-  }
+    public String getRootFolder() {
+        return rootFolder;
+    }
 
-  public ContentExtractorFactory setRootFolder(final String rootFolder) {
-    this.rootFolder = rootFolder;
-    return this;
-  }
+    public ContentExtractorFactory setRootFolder(final String rootFolder) {
+        this.rootFolder = rootFolder;
+        return this;
+    }
 
-  public ContentExtractor getInstance(final String dataJsonLocation, final String filePath) {
-    return new ContentExtractor(getRootFolder(), dataJsonLocation, filePath, getResourceLoader());
-  }
+    public ContentExtractor getInstance(final String dataJsonLocation, final String filePath) {
+        return new ContentExtractor(getRootFolder(), dataJsonLocation, filePath, getResourceLoader());
+    }
 
 
-  public ResourceLoader getResourceLoader() {
-    return resourceLoader;
-  }
+    public ResourceLoader getResourceLoader() {
+        return resourceLoader;
+    }
 
-  public ContentExtractorFactory setResourceLoader(final ResourceLoader resourceLoader) {
-    this.resourceLoader = resourceLoader;
-    return this;
-  }
+    public ContentExtractorFactory setResourceLoader(final ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+        return this;
+    }
 }

@@ -8,5 +8,5 @@ package com.github.onsdigital.index.enrichment.service.analyse;
  */
 @FunctionalInterface
 public interface Accumulator {
-  void add(String s);
+    void add(String s);
 }

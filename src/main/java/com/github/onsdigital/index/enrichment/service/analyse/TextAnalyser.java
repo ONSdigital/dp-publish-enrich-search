@@ -23,85 +23,85 @@ import java.util.List;
  * @author James Fawke
  */
 class TextAnalyser {
-  private static final Logger LOGGER = LoggerFactory.getLogger(TextAnalyser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TextAnalyser.class);
 
-  private final List<TokenFilterFactory> filterFactories = new ArrayList<>();
-  private TokenizerFactory tokenizer = new StandardTokenizerFactory(new HashMap<>());
+    private final List<TokenFilterFactory> filterFactories = new ArrayList<>();
+    private TokenizerFactory tokenizer = new StandardTokenizerFactory(new HashMap<>());
 
-  private List<TokenFilterFactory> getFilterFactories() {
-    return filterFactories;
-  }
-
-  private TokenizerFactory getTokenizer() {
-    return tokenizer;
-  }
-
-  /**
-   * Default Tokenizer is @see StandardTokenizerFactory. Override if required
-   *
-   * @param tokenizer @see StandardTokenizerFactory
-   * @return this instance
-   */
-  public TextAnalyser setTokenizer(TokenizerFactory tokenizer) {
-    this.tokenizer = tokenizer;
-    return this;
-  }
-
-  /**
-   * Add the Filters to the pipeline, this needs to be in the order you need them to be applied
-   *
-   * @param filter
-   * @return this instance
-   */
-  public TextAnalyser addFilterFactory(TokenFilterFactory filter) {
-    this.filterFactories.add(filter);
-    return this;
-  }
-
-  /**
-   * Analyses (aka Tokenizing and Filtering) text with the lucence filters configured<p/>
-   * <pre>
-   * <code> TextAnalyser analyser =  new TextAnalyser().addFilterFactory(buildPatternFilter())
-   *           .addFilterFactory(buildAlphaNumFilter())
-   *           .addFilterFactory(buildLowerCaseFilter());
-   *
-   *  Collection<String> results = new ArrayList<>();
-   *  analyser.filter(text, results::add);
-   * </code>
-   * </pre>1
-   *
-   * @param text        the text to filter
-   * @param accumulator accumulator is called for each term <i>after</i> filtering
-   * @throws IOException
-   */
-  public void analyse(String text, Accumulator accumulator) throws IOException {
-
-    if (StringUtils.isNotBlank(text)) {
-      Tokenizer tokenizer = this.tokenizer.create();
-      tokenizer.setReader(new StringReader(text));
-      TokenStream tokenStream = tokenizer;
-      for (TokenFilterFactory filterFactory : getFilterFactories()) {
-        tokenStream = filterFactory.create(tokenStream);
-      }
-      extractTokens(accumulator, tokenStream);
+    private List<TokenFilterFactory> getFilterFactories() {
+        return filterFactories;
     }
-  }
 
-  /**
-   * Extract the tokens built and contained inside the tokenStream into the accumulator
-   *
-   * @param accumulator
-   * @param tokenStream
-   * @throws IOException
-   */
-  private void extractTokens(final Accumulator accumulator, final TokenStream tokenStream) throws IOException {
-    CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
-    tokenStream.reset();
-    while (tokenStream.incrementToken()) {
-      String s = charTermAttribute.toString();
-      accumulator.add(s);
-
+    private TokenizerFactory getTokenizer() {
+        return tokenizer;
     }
-  }
+
+    /**
+     * Default Tokenizer is @see StandardTokenizerFactory. Override if required
+     *
+     * @param tokenizer @see StandardTokenizerFactory
+     * @return this instance
+     */
+    public TextAnalyser setTokenizer(TokenizerFactory tokenizer) {
+        this.tokenizer = tokenizer;
+        return this;
+    }
+
+    /**
+     * Add the Filters to the pipeline, this needs to be in the order you need them to be applied
+     *
+     * @param filter
+     * @return this instance
+     */
+    public TextAnalyser addFilterFactory(TokenFilterFactory filter) {
+        this.filterFactories.add(filter);
+        return this;
+    }
+
+    /**
+     * Analyses (aka Tokenizing and Filtering) text with the lucence filters configured<p/>
+     * <pre>
+     * <code> TextAnalyser analyser =  new TextAnalyser().addFilterFactory(buildPatternFilter())
+     *           .addFilterFactory(buildAlphaNumFilter())
+     *           .addFilterFactory(buildLowerCaseFilter());
+     *
+     *  Collection<String> results = new ArrayList<>();
+     *  analyser.filter(text, results::add);
+     * </code>
+     * </pre>1
+     *
+     * @param text        the text to filter
+     * @param accumulator accumulator is called for each term <i>after</i> filtering
+     * @throws IOException
+     */
+    public void analyse(String text, Accumulator accumulator) throws IOException {
+
+        if (StringUtils.isNotBlank(text)) {
+            Tokenizer tokenizer = this.tokenizer.create();
+            tokenizer.setReader(new StringReader(text));
+            TokenStream tokenStream = tokenizer;
+            for (TokenFilterFactory filterFactory : getFilterFactories()) {
+                tokenStream = filterFactory.create(tokenStream);
+            }
+            extractTokens(accumulator, tokenStream);
+        }
+    }
+
+    /**
+     * Extract the tokens built and contained inside the tokenStream into the accumulator
+     *
+     * @param accumulator
+     * @param tokenStream
+     * @throws IOException
+     */
+    private void extractTokens(final Accumulator accumulator, final TokenStream tokenStream) throws IOException {
+        CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+        tokenStream.reset();
+        while (tokenStream.incrementToken()) {
+            String s = charTermAttribute.toString();
+            accumulator.add(s);
+
+        }
+    }
 
 }

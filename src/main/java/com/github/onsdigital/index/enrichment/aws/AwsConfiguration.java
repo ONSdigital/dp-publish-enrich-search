@@ -10,24 +10,24 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "cloud.aws.credentials")
 public class AwsConfiguration {
 
-  private String accessKey;
-  private String secretKey;
+    private String accessKey;
+    private String secretKey;
 
-  public String getAccessKey() {
-    return accessKey;
-  }
+    public String getAccessKey() {
+        return accessKey;
+    }
 
-  public AwsConfiguration setAccessKey(final String accessKey) {
-    this.accessKey = accessKey;
-    return this;
-  }
+    public AwsConfiguration setAccessKey(final String accessKey) {
+        this.accessKey = accessKey;
+        return this;
+    }
 
-  public String getSecretKey() {
-    return secretKey;
-  }
+    public String getSecretKey() {
+        return secretKey;
+    }
 
-  public AwsConfiguration setSecretKey(final String secretKey) {
-    this.secretKey = secretKey;
-    return this;
-  }
+    public AwsConfiguration setSecretKey(final String secretKey) {
+        this.secretKey = secretKey;
+        return this;
+    }
 }
