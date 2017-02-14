@@ -23,8 +23,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-import static com.github.onsdigital.index.enrichment.service.analyse.TextFilterUtil.extractAlphaNumericString;
+import static com.github.onsdigital.index.enrichment.service.analyse.TextFilterUtil.extractAlphaNumericCaseSensitiveUniqueTokens;
 
 /**
  * Extract text content a file
@@ -63,7 +64,9 @@ public class FileContentExtractUtil {
           String str = extractRawText(downloadPath, documentMetadatas);
 
           if (isTabularContentType(documentMetadatas) || isTabularFileName(documentMetadatas)) {
-              str = extractAlphaNumericString(str);
+            //TODO When we have a bigger Elastic server we can index the whole data
+            str = extractAlphaNumericCaseSensitiveUniqueTokens(str).stream()
+                                                                   .collect(Collectors.joining(" "));
           }
           contentText = Lists.newArrayList(str);
         }
