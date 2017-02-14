@@ -134,7 +134,7 @@ public class DocumentLoaderService {
         Data returnData = null;
         try {
 
-            String dataJson = ResourceUtils.readFileToString(r);
+            String dataJson = ResourceUtils.readResourceToString(r);
             Map<String, Object> map = MAPPER.readValue(dataJson, Map.class);
 
             returnData = new Data().setIndex(INDEX_ALIAS)

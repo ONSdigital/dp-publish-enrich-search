@@ -36,7 +36,7 @@ public class FileContentExtractUtilTest {
   public void extractTextFromText() throws Exception {
     Resource resource = rl.getResource("classpath:/tobeornottobe.txt");
     List<String> strings = FileContentExtractUtil.extractText(resource);
-    String s = ResourceUtils.readFileToString(resource);
+    String s = ResourceUtils.readResourceToString(resource);
     assertEquals(s.trim(), strings.get(0)
                                   .trim());
 
@@ -59,7 +59,7 @@ public class FileContentExtractUtilTest {
     Resource resource = rl.getResource("classpath:/tobeornottobe.json");
     List<String> strings = FileContentExtractUtil.extractText(rl.getResource("classpath:/tobeornottobe.json"));
 
-    String s = ResourceUtils.readFileToString(rl.getResource("classpath:/tobeornottobe.txt"));
+    String s = ResourceUtils.readResourceToString(rl.getResource("classpath:/tobeornottobe.txt"));
     assertTrue(strings.get(0)
                       .startsWith("To be, or not to be:"));
     assertTrue(strings.get(0)

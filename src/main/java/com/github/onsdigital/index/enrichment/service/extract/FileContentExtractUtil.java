@@ -56,7 +56,7 @@ public class FileContentExtractUtil {
             if (null != downloadPath) {
                 //Tika does not handle json
                 if (ResourceUtils.isJsonFile(downloadPath)) {
-                    contentText = new JsonToStringConverter(ResourceUtils.readFileToString(downloadPath)).extractText();
+                    contentText = new JsonToStringConverter(ResourceUtils.readResourceToString(downloadPath)).extractText();
                 }
                 else {
                     ArrayList<Metadata> documentMetadatas = new ArrayList<>();

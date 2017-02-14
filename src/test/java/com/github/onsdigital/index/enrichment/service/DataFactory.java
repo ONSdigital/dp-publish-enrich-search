@@ -39,7 +39,7 @@ public class DataFactory {
                           .setDataFileLocation(file);
 
     if (loadFile) {
-      String raw = ResourceUtils.readFileToString(loader.getResource(file));
+      String raw = ResourceUtils.readResourceToString(loader.getResource(file));
       data.setRaw(raw)
           .setSource(MAPPER.readValue(raw, Map.class));
     }

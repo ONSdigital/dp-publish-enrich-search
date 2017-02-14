@@ -18,7 +18,7 @@ public class ResourceUtils {
         //DO NOT INSTANTIATE
     }
 
-    public static String readFileToString(final Resource r) throws IOException {
+    public static String readResourceToString(final Resource r) throws IOException {
         InputStream inputStream = r.getInputStream();
         return IOUtils.toString(inputStream);
     }
@@ -58,7 +58,7 @@ public class ResourceUtils {
     }
 
     public static boolean noProtocolDefinition(final String s3Location) {
-        return !(StringUtils.startsWithIgnoreCase(s3Location, "s3:/")
+        return !(StringUtils.startsWithIgnoreCase(s3Location, "s3:")
                 || StringUtils.startsWithIgnoreCase(s3Location, "file:")
                 || StringUtils.startsWithIgnoreCase(s3Location, "http:")
                 || StringUtils.startsWithIgnoreCase(s3Location, "classpath:"));

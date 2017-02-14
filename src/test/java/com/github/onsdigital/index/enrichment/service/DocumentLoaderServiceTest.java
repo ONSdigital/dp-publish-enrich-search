@@ -89,7 +89,7 @@ public class DocumentLoaderServiceTest {
 
     assertNotNull(datas);
 
-    String expected = ResourceUtils.readFileToString(resourceLoader.getResource(dataFileLocation));
+    String expected = ResourceUtils.readResourceToString(resourceLoader.getResource(dataFileLocation));
     Data actual = datas.get(0);
     String raw = actual.getRaw();
 
