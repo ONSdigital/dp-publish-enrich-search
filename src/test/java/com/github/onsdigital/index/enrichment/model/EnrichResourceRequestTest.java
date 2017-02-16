@@ -12,7 +12,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by fawks on 13/02/2017.
+ * test.
  */
 public class EnrichResourceRequestTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnrichResourceRequestTest.class);

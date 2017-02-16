@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class NullReturningTerminatingService {
     public void doNothingReturnNothing(Object object) {
-        return;
+        //DO NOTHING
     }
 }

@@ -4,7 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Created by fawks on 14/02/2017.
+ * Request the enrichment of a document based on a file resource
  */
 public class EnrichResourceRequest implements PipelineRequest {
 

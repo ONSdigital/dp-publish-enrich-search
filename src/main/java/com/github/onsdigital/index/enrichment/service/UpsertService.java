@@ -37,7 +37,7 @@ public class UpsertService {
      */
     public boolean upsert(Page obj) throws InValidUpdateRequestException {
         LOGGER.info("upsertDocument([obj]) : id {}", obj.getId());
-        getRepo().upsertData(obj.getId(), obj.getIndex(), obj.getType(), obj.getSource(), obj.getVersion());
-        return true;
+        return getRepo().upsertData(obj.getId(), obj.getIndex(), obj.getType(), obj.getSource(), obj.getVersion());
+
     }
 }

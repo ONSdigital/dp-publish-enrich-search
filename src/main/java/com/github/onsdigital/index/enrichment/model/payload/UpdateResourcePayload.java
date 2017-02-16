@@ -28,7 +28,7 @@ public class UpdateResourcePayload extends AbstractPayload<UpdateResourcePayload
 
     public UpdateResourcePayload setContent(final Map<String, Object> content) {
         this.content = content;
-        return (UpdateResourcePayload) this;
+        return this;
     }
 
     @Override

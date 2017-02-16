@@ -1,7 +1,7 @@
 package com.github.onsdigital.index.enrichment.exception;
 
 /**
- * Created by fawks on 14/02/2017.
+ * Generic Exception thrown within The Enriching Flow
  */
 public class EnrichServiceException extends Exception {
     public EnrichServiceException() {

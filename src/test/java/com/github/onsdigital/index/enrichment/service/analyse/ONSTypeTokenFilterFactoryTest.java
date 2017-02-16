@@ -20,7 +20,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by fawks on 06/02/2017.
+ * Test.
  */
 public class ONSTypeTokenFilterFactoryTest {
   private TokenizerFactory tokenizer = new StandardTokenizerFactory(new HashMap<>());

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by fawks on 15/02/2017.
+ * Test.
  */
 public class PageUtilsTest {
     @Test

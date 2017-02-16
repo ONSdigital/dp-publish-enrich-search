@@ -53,7 +53,7 @@ public class FileContentExtractUtil {
      */
 
     public static List<String> extractText(final Resource downloadPath) throws EnrichServiceException {
-        List<String> contentText = null;
+        List<String> contentText;
         try {
             if (null != downloadPath) {
                 //Tika does not handle json

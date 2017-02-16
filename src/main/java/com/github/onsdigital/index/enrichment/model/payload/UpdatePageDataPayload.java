@@ -45,6 +45,6 @@ public class UpdatePageDataPayload extends AbstractPayload<UpdatePageDataPayload
 
     public UpdatePageDataPayload setContent(final List<String> content) {
         this.content = content;
-        return (UpdatePageDataPayload) this;
+        return this;
     }
 }

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by James Fawke on 01/02/2017.
@@ -61,7 +60,7 @@ public class ElasticRepository {
     }
 
     public Page loadPage(String id, String index) throws ONSPageNotFoundException {
-        Page returnPage = null;
+        Page returnPage;
         SearchHits hits = getElasticClient().prepareSearch()
                                             .setIndices(index)
                                             .setQuery(QueryBuilders.termQuery("_id", id))
@@ -88,8 +87,8 @@ public class ElasticRepository {
     }
 
 
-    public void upsertData(String id, String index, String type, Map<String, Object> updatedSource,
-                           Long version) throws InValidUpdateRequestException {
+    public boolean upsertData(String id, String index, String type, Map<String, Object> updatedSource,
+                              Long version) throws InValidUpdateRequestException {
         UpdateRequestBuilder updateRequestBuilder = getElasticClient().prepareUpdate(index, type, id);
         //If Version sent use it
         if (null != version) {
@@ -107,6 +106,7 @@ public class ElasticRepository {
                         type,
                         updateResponse.isCreated(),
                         updateResponse.getVersion());
+            return true;
         }
         catch (ActionRequestValidationException re) {
             LOGGER.warn(
@@ -142,7 +142,7 @@ public class ElasticRepository {
                                              .actionGet();
 
         final List<Page> indexedDocuments = new ArrayList<>();
-        final AtomicLong i = new AtomicLong();
+
         SearchHit[] hits = searchResponse.getHits()
                                          .getHits();
         do {

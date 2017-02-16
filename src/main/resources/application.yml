@@ -54,6 +54,3 @@ elasticsearch:
         -
           host: localhost
           port: 9300
-#        -
-#          host: localhos2
-#          port: 9301

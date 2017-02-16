@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by fawks on 06/02/2017.
+ * Test.
  */
 public class AwsConfigurationTest {
   @Test

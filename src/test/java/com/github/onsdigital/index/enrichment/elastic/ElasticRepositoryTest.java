@@ -24,8 +24,6 @@ import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,12 +38,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by fawks on 07/02/2017.
+ * Test.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ElasticRepositoryTest {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(ElasticRepositoryTest.class);
 
   @Mock
   private TransportClient client;

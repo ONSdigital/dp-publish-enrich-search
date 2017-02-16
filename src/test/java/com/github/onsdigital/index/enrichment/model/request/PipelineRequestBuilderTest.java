@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by fawks on 14/02/2017.
+ * Test.
  */
 public class PipelineRequestBuilderTest {
     @Test

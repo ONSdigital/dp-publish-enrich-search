@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Created by fawks on 15/02/2017.
+ * Abstract Parent Template that holds the common fields betweent the different payloads.
  */
 public abstract class AbstractPayload<T> {
     private Page page;

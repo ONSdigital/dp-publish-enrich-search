@@ -38,11 +38,12 @@
     <logger name="org.apache.fontbox.ttf" level="ERROR"/>
     <logger name="org.apache.poi.ss.format" level="ERROR"/>
     <logger name="org.apache.kafka" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
     <logger name="org.springframework.boot.SpringApplication" level="INFO"/>
 
     <logger name="com.github.onsdigital.index" level="INFO"/>
 
-    <root level="DEBUG">
+    <root level="WARN">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>

@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 /**
- * Created by fawks on 16/02/2017.
+ * test
  */
 public class EnrichResourceRequestTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnrichResourceRequestTest.class);

@@ -1,6 +1,5 @@
 package com.github.onsdigital.index.enrichment.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.onsdigital.index.enrichment.elastic.ElasticRepository;
 import com.github.onsdigital.index.enrichment.exception.EnrichServiceException;
 import com.github.onsdigital.index.enrichment.model.Page;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DocumentLoaderService {
 
-    public final static ObjectMapper MAPPER = new ObjectMapper();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentLoaderService.class);
     private static final String INDEX_ALIAS = "ons";
 

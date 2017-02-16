@@ -6,7 +6,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by fawks on 03/02/2017.
+ * Spring owned factory class, so that Spring can inject the Resource Loader and Root Directory.
  */
 @Component
 public class ContentExtractorFactory {

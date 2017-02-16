@@ -7,10 +7,7 @@ public enum ModelEnum {
     DOWNLOADS("downloads", "downloads"),
     FILE("file", "file"),
     CONTENT("", "content"),
-    URI("uri", "uri"),
     ID("uri", "_id"),
-    INDEX("", "_index"),
-    TYPE("type", "_type"),
     PAGEDATA(null, "pageData"),
     UPDATED_AT(null, "updatedAt");
 

@@ -3,8 +3,6 @@ package com.github.onsdigital.index.enrichment.service.util;
 import com.beust.jcommander.internal.Lists;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -22,7 +20,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class ResourceUtilsTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceUtilsTest.class);
     private final ResourceLoader loader = new DefaultResourceLoader();
 
 

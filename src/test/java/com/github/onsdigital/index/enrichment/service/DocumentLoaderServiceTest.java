@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.core.io.DefaultResourceLoader;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by fawks on 06/02/2017.
+ * Test
  */
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,7 +30,7 @@ public class DocumentLoaderServiceTest {
   @Mock ElasticRepository repo;
 
   private DocumentLoaderService service;
-  private final DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+
 
   @Before
   public void init() {

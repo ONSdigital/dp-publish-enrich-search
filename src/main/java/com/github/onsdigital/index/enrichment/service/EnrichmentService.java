@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-
 import static com.github.onsdigital.index.enrichment.model.ModelEnum.PAGEDATA;
 import static com.github.onsdigital.index.enrichment.service.util.PageUtils.attachDownload;
 
@@ -31,7 +29,7 @@ public class EnrichmentService {
      * @param payload
      * @return
      */
-    public Page enrichPage(final UpdatePageDataPayload payload) throws IOException {
+    public Page enrichPage(final UpdatePageDataPayload payload)  {
 
         Page page = payload.getPage();
         LOGGER.debug("enrichPage([UpdatePageDataPayload]) : Page {}", page
@@ -49,7 +47,7 @@ public class EnrichmentService {
      * @param payload
      * @return
      */
-    public Page enrichPage(final UpdateResourcePayload payload) throws IOException {
+    public Page enrichPage(final UpdateResourcePayload payload)  {
 
         final Page page = payload.getPage();
         LOGGER.debug("enrichPage([UpdatePageDataPayload]) : Page {}", page.getId());

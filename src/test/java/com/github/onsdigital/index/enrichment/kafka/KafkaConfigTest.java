@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 /**
- * Created by fawks on 07/02/2017.
+ * Test.
  */
 public class KafkaConfigTest {
   @Test

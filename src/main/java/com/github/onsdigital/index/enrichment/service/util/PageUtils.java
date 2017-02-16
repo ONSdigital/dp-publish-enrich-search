@@ -45,7 +45,7 @@ public class PageUtils {
     }
 
     private static List<Map<String, Object>> prepDownloadsList(final Page page, final Object o) {
-        List<Map<String, Object>> downloads = null;
+        List<Map<String, Object>> downloads;
 
         if (o instanceof List) {
             downloads = (List) o;

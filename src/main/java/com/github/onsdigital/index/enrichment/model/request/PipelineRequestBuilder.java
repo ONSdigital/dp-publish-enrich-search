@@ -23,9 +23,9 @@ public class PipelineRequestBuilder {
     public static PipelineRequest buildRequests(final String json) throws EnrichServiceException {
         final PipelineRequest request;
         try {
-            JsonNode jsonNode = null;
+            JsonNode jsonNode;
             jsonNode = MAPPER.readTree(json);
-            Class<? extends PipelineRequest> clazz = null;
+
             if (null != jsonNode.findValue("s3Location")) {
                 LOGGER.info("buildRequests([json]) : EnrichResourceRequest detected '{}' ", json);
                 request = buildEnrichResourceRequest(json, jsonNode);

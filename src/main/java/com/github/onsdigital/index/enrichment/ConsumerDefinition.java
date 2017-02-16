@@ -33,23 +33,29 @@ public class ConsumerDefinition {
     public static final String ERROR_CHANNEL = "exceptionChannel";
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerDefinition.class);
     public static final String PROCESS_CHANNEL = "processChannel";
-    public static final String RETRY_CHANNEL = "retryChannel";
 
 
     @Autowired
     private KafkaConsumerConfig kafkaListenerConfig;
+
     @Autowired
     private KafkaConfig kafkaConfig;
+
     @Autowired
     private DocumentLoaderService loadDocumentService;
+
     @Autowired
     private EnrichmentService enrichmentService;
+
     @Autowired
     private UpsertService upsertService;
+
     @Autowired
     private TransformService transformService;
+
     @Autowired
     private NullReturningTerminatingService terminatingService;
+
     @Autowired
     private ExtractContentService extractService;
 
@@ -114,7 +120,7 @@ public class ConsumerDefinition {
 
 
     /**
-     * When the persistence to the Elastic Search service fails (primaryily this is expected because of a Optimistic Lock exception)
+     * When the persistence to the Elastic Search service fails (primarily this is expected because of a Optimistic Lock exception)
      * The retry in 200ms, then again 2x that for 15 attempts capt at 10,000ms between attempts..
      * <p>
      * for example 200ms, 400ms, 800ms, 1600ms, 3200ms, 6400ms, 10000ms... for the rest

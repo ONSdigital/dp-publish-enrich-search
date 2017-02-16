@@ -18,7 +18,7 @@ import static com.github.onsdigital.index.enrichment.model.ModelEnum.PAGEDATA;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by fawks on 06/02/2017.
+ * Test.
  */
 public class EnrichmentServiceTest {
 

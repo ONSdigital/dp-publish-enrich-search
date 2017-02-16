@@ -22,16 +22,14 @@ import java.net.UnknownHostException;
 
 public class ElasticDefinition {
 
-    private TransportClient client;
-
 
     @Bean
     public TransportClient elasticClient(ElasticConfig config) throws UnknownHostException {
         Settings settings = buildSettings(config);
 
-        client = TransportClient.builder()
-                                .settings(settings)
-                                .build();
+        TransportClient client = TransportClient.builder()
+                                                .settings(settings)
+                                                .build();
 //Add transport addresses and do something with the client...
         for (InetAddressConfig addr : config.getInetAddresses()) {
             client.addTransportAddress(

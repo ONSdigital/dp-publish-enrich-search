@@ -27,7 +27,6 @@ public class RegExPatternFilter extends FilteringTokenFilter {
         super(in);
         this.pattern = Pattern.compile(pattern);
         this.exclude = exclude;
-        ;
 
     }
 
