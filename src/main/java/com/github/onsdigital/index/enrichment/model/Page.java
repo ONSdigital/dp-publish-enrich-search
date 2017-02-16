@@ -3,27 +3,40 @@ package com.github.onsdigital.index.enrichment.model;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author James Fawke
  **/
 
-public class Data {
+public class Page {
 
     private String id;
     private String index;
     private String type;
-
+    private Long version;
     private Map<String, Object> source;
     private String raw;
     private String dataFileLocation;
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public Page setVersion(final Long version) {
+        this.version = version;
+        return this;
+    }
+
     public Map<String, Object> getSource() {
+        if (null == source) {
+            source = new HashMap<>();
+        }
         return source;
     }
 
-    public Data setSource(final Map<String, Object> source) {
+    public Page setSource(final Map<String, Object> source) {
         this.source = source;
         return this;
     }
@@ -32,7 +45,7 @@ public class Data {
         return index;
     }
 
-    public Data setIndex(final String index) {
+    public Page setIndex(final String index) {
         this.index = index;
         return this;
     }
@@ -41,7 +54,7 @@ public class Data {
         return type;
     }
 
-    public Data setType(final String type) {
+    public Page setType(final String type) {
         this.type = type;
         return this;
     }
@@ -50,7 +63,7 @@ public class Data {
         return id;
     }
 
-    public Data setId(final String id) {
+    public Page setId(final String id) {
         this.id = id;
         return this;
     }
@@ -59,7 +72,7 @@ public class Data {
         return raw;
     }
 
-    public Data setRaw(final String raw) {
+    public Page setRaw(final String raw) {
         this.raw = raw;
         return this;
     }
@@ -68,7 +81,7 @@ public class Data {
         return dataFileLocation;
     }
 
-    public Data setDataFileLocation(final String dataFileLocation) {
+    public Page setDataFileLocation(final String dataFileLocation) {
         this.dataFileLocation = dataFileLocation;
         return this;
     }
@@ -83,15 +96,16 @@ public class Data {
             return false;
         }
 
-        final Data data = (Data) o;
+        final Page page = (Page) o;
 
         return new EqualsBuilder()
-                .append(getId(), data.getId())
-                .append(getIndex(), data.getIndex())
-                .append(getType(), data.getType())
-                .append(getSource(), data.getSource())
-                .append(getRaw(), data.getRaw())
-                .append(getDataFileLocation(), data.getDataFileLocation())
+                .append(getId(), page.getId())
+                .append(getIndex(), page.getIndex())
+                .append(getType(), page.getType())
+                .append(getSource(), page.getSource())
+                .append(getRaw(), page.getRaw())
+                .append(getDataFileLocation(), page.getDataFileLocation())
+                .append(getVersion(), page.getVersion())
                 .isEquals();
     }
 
@@ -104,6 +118,7 @@ public class Data {
                 .append(getSource())
                 .append(getRaw())
                 .append(getDataFileLocation())
+                .append(getVersion())
                 .toHashCode();
     }
 }

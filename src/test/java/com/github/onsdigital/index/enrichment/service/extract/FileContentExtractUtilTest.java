@@ -1,6 +1,7 @@
 package com.github.onsdigital.index.enrichment.service.extract;
 
-import com.github.onsdigital.index.enrichment.service.analyse.util.ResourceUtils;
+import com.github.onsdigital.index.enrichment.exception.FileExtractException;
+import com.github.onsdigital.index.enrichment.service.util.ResourceUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.tika.metadata.HttpHeaders;
 import org.apache.tika.metadata.Metadata;

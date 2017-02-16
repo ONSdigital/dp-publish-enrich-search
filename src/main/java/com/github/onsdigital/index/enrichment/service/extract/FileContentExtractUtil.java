@@ -1,8 +1,10 @@
 package com.github.onsdigital.index.enrichment.service.extract;
 
 import com.beust.jcommander.internal.Lists;
-import com.github.onsdigital.index.enrichment.service.analyse.util.JsonToStringConverter;
-import com.github.onsdigital.index.enrichment.service.analyse.util.ResourceUtils;
+import com.github.onsdigital.index.enrichment.exception.EnrichServiceException;
+import com.github.onsdigital.index.enrichment.exception.FileExtractException;
+import com.github.onsdigital.index.enrichment.service.util.JsonToStringConverter;
+import com.github.onsdigital.index.enrichment.service.util.ResourceUtils;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.extractor.DocumentSelector;
@@ -25,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.github.onsdigital.index.enrichment.service.analyse.TextFilterUtil.extractAlphaNumericCaseSensitiveUniqueTokens;
+import static com.github.onsdigital.index.enrichment.service.util.TextFilterUtil.extractAlphaNumericCaseSensitiveUniqueTokens;
 
 /**
  * Extract text content a file
@@ -50,7 +52,7 @@ public class FileContentExtractUtil {
      * @return String containing the text
      */
 
-    public static List<String> extractText(final Resource downloadPath) throws FileExtractException {
+    public static List<String> extractText(final Resource downloadPath) throws EnrichServiceException {
         List<String> contentText = null;
         try {
             if (null != downloadPath) {

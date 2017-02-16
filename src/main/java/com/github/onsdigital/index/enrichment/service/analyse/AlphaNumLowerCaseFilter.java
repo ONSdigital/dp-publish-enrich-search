@@ -7,7 +7,7 @@ import java.io.IOException;
  *
  * @author James Fawke
  */
-class AlphaNumLowerCaseFilter {
+public class AlphaNumLowerCaseFilter {
     private static final TextAnalyser TEXT_ANALYSER = new TextAnalyser()
             .addFilterFactory(Filters.buildAlphaNumFilter())
             .addFilterFactory(Filters.buildRegexFilter())

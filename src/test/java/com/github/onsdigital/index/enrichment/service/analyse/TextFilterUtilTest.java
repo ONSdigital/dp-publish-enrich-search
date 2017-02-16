@@ -1,6 +1,7 @@
 package com.github.onsdigital.index.enrichment.service.analyse;
 
 import com.beust.jcommander.internal.Lists;
+import com.github.onsdigital.index.enrichment.service.util.TextFilterUtil;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 

@@ -11,7 +11,8 @@ public enum ModelEnum {
     ID("uri", "_id"),
     INDEX("", "_index"),
     TYPE("type", "_type"),
-    PAGEDATA("", "pageData");
+    PAGEDATA(null, "pageData"),
+    UPDATED_AT(null, "updatedAt");
 
     private String fileProperty;
     private String indexDocProperty;

@@ -1,6 +1,6 @@
 package com.github.onsdigital.index.enrichment.elastic;
 
-import com.github.onsdigital.index.enrichment.model.Data;
+import com.github.onsdigital.index.enrichment.model.Page;
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.ListenableActionFuture;
 import org.elasticsearch.action.get.GetRequest;
@@ -79,7 +79,7 @@ public class ElasticRepositoryTest {
     when(getResponse.getIndex()).thenReturn(index);
     when(getResponse.getType()).thenReturn(type);
 
-    final Data actual = repo.loadData(id, index, type);
+    final Page actual = repo.loadData(id, index, type);
     //Test Response is populated
     assertEquals(id, actual.getId());
     assertEquals(type, actual.getType());
@@ -107,15 +107,14 @@ public class ElasticRepositoryTest {
     when(client.prepareUpdate(eq(index), eq(type), eq(id))).thenReturn(updateRequestBuilder);
     when(updateRequestBuilder.setDoc(eq(source))).thenAnswer(Answers.RETURNS_SELF);
     when(updateRequestBuilder.setUpsert(eq(source))).thenAnswer(Answers.RETURNS_SELF);
+
     ListenableActionFuture actionRequest = mock(ListenableActionFuture.class);
     when(updateRequestBuilder.execute()).thenReturn(actionRequest);
     when(actionRequest.actionGet()).thenReturn(mock(UpdateResponse.class));
 
-
-    repo.upsertData(id, index, type, source);
+    repo.upsertData(id, index, type, source, 0L);
 
     verify(client).prepareUpdate(eq(index), eq(type), eq(id));
-
     ArgumentCaptor<Map> doc = ArgumentCaptor.forClass(Map.class);
 
     verify(updateRequestBuilder).setDoc(eq(source));
@@ -133,8 +132,8 @@ public class ElasticRepositoryTest {
 
     prepScrollQuery(index);
 
-    List<Data> datas = repo.listAllIndexDocuments(index);
-    assertEquals(2050, datas.size());
+    List<Page> pages = repo.listAllIndexDocuments(index);
+    assertEquals(2050, pages.size());
 
   }
 

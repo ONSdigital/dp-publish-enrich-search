@@ -2,8 +2,9 @@ package com.github.onsdigital.index.enrichment.service;
 
 import com.beust.jcommander.internal.Lists;
 import com.github.onsdigital.index.enrichment.elastic.ElasticRepository;
-import com.github.onsdigital.index.enrichment.model.*;
-import com.github.onsdigital.index.enrichment.service.analyse.util.ResourceUtils;
+import com.github.onsdigital.index.enrichment.model.Page;
+import com.github.onsdigital.index.enrichment.model.payload.UpdatePageDataPayload;
+import com.github.onsdigital.index.enrichment.model.payload.UpdateResourcePayload;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +13,11 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.DefaultResourceLoader;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static com.github.onsdigital.index.enrichment.service.DataFactory.buildData;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -36,88 +36,58 @@ public class DocumentLoaderServiceTest {
   @Before
   public void init() {
     service = new DocumentLoaderService();
-    service.setRepo(repo);
-    service.setResourceLoader(resourceLoader);
+    service.setRepository(repo);
+
 
   }
 
   @Test
-  public void loadDocuments() throws Exception {
+  public void loadJsonPage() throws Exception {
 
 
-    EnrichIndexedDocumentsRequest request = new EnrichIndexedDocumentsRequest();
-    String testIndex = "testIndex";
-    String testType = "testType";
-    request.setDocuments(Lists.newArrayList(buildEnrichDocument
-                                                (testIndex, "1", testType),
-                                            buildEnrichDocument(testIndex, "2", testType)));
+    String testURI = "testUri";
+    List<String> testJson = Lists.newArrayList("testJson");
+    String index = "ons";
 
+    UpdatePageDataPayload payload = new UpdatePageDataPayload().setUri(testURI)
+                                                           .setContent(testJson);
 
-    Data file1 = buildData("1", testIndex, testType, "file1");
-    when(repo.loadData(eq("1"), anyString(), anyString())).thenReturn(file1);
+    Page foundPage = new Page();
+    when(repo.loadPage(eq(testURI), eq(index))).thenReturn(foundPage);
 
-    Data file2 = buildData("2", testIndex, testType, "file2");
+    UpdatePageDataPayload actualPayload = service.load(payload);
 
-
-    when(repo.loadData(eq("2"), anyString(), anyString())).thenReturn(file2);
-
-    List<Data> datas = service.loadDocuments(request);
-
-    assertEquals(file1, datas.get(0));
-    assertEquals(file2, datas.get(1));
+    assertEquals(foundPage, actualPayload.getPage());
+    assertEquals(testJson, actualPayload.getContent());
     Mockito.verify(repo)
-           .loadData("2", testIndex, testType);
+           .loadPage(testURI, index);
+
+
+  }
+
+
+  @Test
+  public void loadResourcePage() throws Exception {
+    String testURI = "testUri";
+    Map<String,Object> testContent = new HashMap<>();
+    String index = "ons";
+
+    UpdateResourcePayload request = new UpdateResourcePayload().setUri(testURI)
+                                                               .setContent(testContent);
+
+
+    Page foundPage = new Page();
+    when(repo.loadPage(eq(testURI), eq(index))).thenReturn(foundPage);
+
+    UpdateResourcePayload actualPayload = service.load(request);
+
+    assertEquals(foundPage, actualPayload.getPage());
+    assertEquals(testContent, actualPayload.getContent());
     Mockito.verify(repo)
-           .loadData("1", testIndex, testType);
-
-  }
-
-  private EnrichDocument buildEnrichDocument(final String testIndex, final String id, final String testType) {
-    return new EnrichDocument().setIndex(testIndex)
-                               .setId(id)
-                               .setType(testType);
-  }
-
-  @Test
-  public void loadResources() throws Exception {
-    String dataFileLocation = "classpath:data.json";
-    ResourceDocument file2 = new ResourceDocument().setDataFileLocation(dataFileLocation);
-
-    List<ResourceDocument> resources = Lists.newArrayList(file2);
-    EnrichResourceDocumentsRequest request = new EnrichResourceDocumentsRequest().setResources(resources);
-    List<Data> datas = service.loadResources(request);
-
-    assertNotNull(datas);
-
-    String expected = ResourceUtils.readResourceToString(resourceLoader.getResource(dataFileLocation));
-    Data actual = datas.get(0);
-    String raw = actual.getRaw();
-
-    assertEquals(expected, raw);
-    assertEquals("ons", actual.getIndex());
-    assertEquals("testType", actual.getType());
-    assertEquals("testUri", actual.getId());
+           .loadPage(testURI, index);
 
 
   }
 
-  @Test
-  public void loadAllDocuments() throws Exception {
-    String testIndex = "TestIndex";
-    String testType = "TestType";
-    EnrichAllIndexedDocumentsRequest request = new EnrichAllIndexedDocumentsRequest().setIndex("TestIndex");
-
-    Data file1 = new Data().setId("1")
-                           .setIndex(testIndex)
-                           .setType(testType)
-                           .setDataFileLocation("file1");
-
-    when(repo.listAllIndexDocuments(eq("TestIndex"))).thenReturn(Lists.newArrayList(file1));
-
-    Data[] datas = service.loadAllDocuments(request);
-    assertEquals(1, datas.length);
-    assertEquals(file1, datas[0]);
-
-  }
 
 }

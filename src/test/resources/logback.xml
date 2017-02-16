@@ -2,9 +2,7 @@
 <configuration>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
+
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
                 %date{ISO8601} [%thread] %-5level %logger{36} - %msg%n
@@ -37,10 +35,9 @@
     <logger name="org.apache.pdfbox.pdmodel.font" level="ERROR"/>
     <logger name="org.apache.fontbox.ttf" level="ERROR"/>
     <logger name="org.apache.poi.ss.format" level="ERROR"/>
-    <logger name="org.apache.kafka" level="WARN"/>
-    <logger name="org.springframework.boot.SpringApplication" level="INFO"/>
+    <logger name="org.apache.kafka" level="INFO"/>
 
-    <logger name="com.github.onsdigital.index" level="INFO"/>
+    <logger name="com.github.onsdigital.index.enrichment" level="DEBUG"/>
 
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>

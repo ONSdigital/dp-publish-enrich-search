@@ -1,4 +1,6 @@
-package com.github.onsdigital.index.enrichment.service.analyse;
+package com.github.onsdigital.index.enrichment.service.util;
+
+import com.github.onsdigital.index.enrichment.service.analyse.AlphaNumLowerCaseFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,5 +1,7 @@
 package com.github.onsdigital.index.enrichment.service.extract;
 
+import com.github.onsdigital.index.enrichment.exception.EnrichServiceException;
+import com.github.onsdigital.index.enrichment.exception.FileExtractException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -9,8 +11,8 @@ import javax.ws.rs.BadRequestException;
 import java.io.IOException;
 import java.util.List;
 
-import static com.github.onsdigital.index.enrichment.service.analyse.util.ResourceUtils.concatenate;
-import static com.github.onsdigital.index.enrichment.service.analyse.util.ResourceUtils.substituteFileName;
+import static com.github.onsdigital.index.enrichment.service.util.ResourceUtils.concatenate;
+import static com.github.onsdigital.index.enrichment.service.util.ResourceUtils.substituteFileName;
 
 public class ContentExtractor {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContentExtractor.class);
@@ -29,7 +31,7 @@ public class ContentExtractor {
         this.resourceLoader = resourceLoader;
     }
 
-    public List<String> extract() {
+    public List<String> extract() throws EnrichServiceException {
         List<String> content = null;
         try {
 
@@ -39,14 +41,19 @@ public class ContentExtractor {
             }
             else {
                 LOGGER.warn("extract([]) : Skipping  {} as not available for page {}", filePath, dataJsonLocation);
+                throw new FileExtractException("Failed to extract file from supplied path " + downloadPath);
             }
 
         }
-        catch (IOException | FileExtractException e) {
-            LOGGER.error("extractContent([pageURI, filePath]) : failed to parser file '{}' with error {} for page {}",
-                         filePath,
-                         e.getMessage(),
-                         dataJsonLocation);
+        catch (IOException e) {
+
+            final String msgFormat = "failed to parser file '{}' with error {} for page {}";
+            final String msg = String.format("failed to parser file '%1s' with error %2s for page '%3s'",
+                                             filePath,
+                                             e.getMessage(),
+                                             dataJsonLocation);
+            LOGGER.error("extractContent([pageURI, filePath]) : " + msg);
+            throw new FileExtractException(msg, e);
         }
         return content;
     }
@@ -58,7 +65,7 @@ public class ContentExtractor {
      * @return
      */
 
-    private List<String> extractText(final Resource downloadPath) throws FileExtractException {
+    private List<String> extractText(final Resource downloadPath) throws EnrichServiceException {
         return FileContentExtractUtil.extractText(downloadPath);
     }
 

@@ -1,4 +1,4 @@
-package com.github.onsdigital.index.enrichment.service;
+package com.github.onsdigital.index.enrichment.exception;
 
 /**
  * Created by fawks on 14/02/2017.

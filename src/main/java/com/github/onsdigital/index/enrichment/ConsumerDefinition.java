@@ -3,6 +3,7 @@ package com.github.onsdigital.index.enrichment;
 import com.github.onsdigital.index.enrichment.kafka.KafkaConfig;
 import com.github.onsdigital.index.enrichment.kafka.KafkaConsumerConfig;
 import com.github.onsdigital.index.enrichment.service.*;
+import org.aopalliance.aop.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.kafka.listener.AbstractMessageListenerContainer;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.config.ContainerProperties;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.retry.interceptor.RetryInterceptorBuilder;
 
 import javax.annotation.PostConstruct;
 
@@ -28,6 +30,8 @@ import javax.annotation.PostConstruct;
 public class ConsumerDefinition {
     public static final String ERROR_CHANNEL = "exceptionChannel";
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerDefinition.class);
+    public static final String PROCESS_CHANNEL = "processChannel";
+    public static final String RETRY_CHANNEL = "retryChannel";
 
 
     @Autowired
@@ -42,6 +46,11 @@ public class ConsumerDefinition {
     private UpsertService upsertService;
     @Autowired
     private TransformService transformService;
+    @Autowired
+    private NullReturningTerminatingService terminatingService;
+    @Autowired
+    private ExtractContentService extractService;
+
     @Autowired
     private ErrorService errorService;
 
@@ -67,6 +76,12 @@ public class ConsumerDefinition {
                               .get();
     }
 
+    @Bean
+    public MessageChannel processChannel() {
+        return MessageChannels.direct(PROCESS_CHANNEL)
+                              .get();
+    }
+
 
     @Bean
     public IntegrationFlow fromKafka(AbstractMessageListenerContainer container) {
@@ -77,11 +92,40 @@ public class ConsumerDefinition {
         return IntegrationFlows
                 .from(messageConsumer)
                 .handle(transformService)
+                .handle(extractService)
+                .gateway(processChannel(), e -> e.advice(retryAdvice()))
+                .handle(terminatingService)
+                .get();
+    }
+
+    @Bean
+    public IntegrationFlow processFlow() {
+
+        return IntegrationFlows
+                .from(processChannel())
                 .handle(loadDocumentService)
-                .split()
                 .handle(enrichmentService)
                 .handle(upsertService)
                 .get();
+    }
+
+
+    /**
+     * When the persistence to the Elastic Search service fails (primaryily this is expected because of a Optimistic Lock exception)
+     * The retry in 200ms, then again 2x that for 15 attempts capt at 10,000ms between attempts..
+     * <p>
+     * for example 200ms, 400ms, 800ms, 1600ms, 3200ms, 6400ms, 10000ms... for the rest
+     *
+     * @return
+     */
+    @Bean
+    public Advice retryAdvice() {
+        return RetryInterceptorBuilder.stateless()
+                                      .backOffOptions(200, 2, 10000)
+                                      .maxAttempts(15)
+                                      .build();
+
+
     }
 
 
@@ -97,8 +141,6 @@ public class ConsumerDefinition {
         ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer(factory,
                                                                                               props);
         container.setConcurrency(kafkaConfig.getConsumers());
-
         return container;
     }
-
 }

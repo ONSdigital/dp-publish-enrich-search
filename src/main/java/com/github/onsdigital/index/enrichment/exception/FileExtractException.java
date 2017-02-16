@@ -1,9 +1,9 @@
-package com.github.onsdigital.index.enrichment.service.extract;
+package com.github.onsdigital.index.enrichment.exception;
 
 /**
  * Exception throw when the system encounters an issue extracting files
  */
-public class FileExtractException extends Exception {
+public class FileExtractException extends EnrichServiceException {
 
     public FileExtractException() {
     }

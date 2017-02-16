@@ -1,10 +1,11 @@
-package com.github.onsdigital.index.enrichment.service.analyse.util;
+package com.github.onsdigital.index.enrichment.service.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
+import com.github.onsdigital.index.enrichment.exception.ExtractContentException;
 import com.github.onsdigital.index.enrichment.service.analyse.KeyValueAccumulator;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -29,16 +30,21 @@ public class JsonToStringConverter {
         jsonContents = new ArrayList<>();
     }
 
-    public List<String> extractText() throws IOException {
+    public List<String> extractText() throws ExtractContentException {
         StringBuffer buffer = new StringBuffer();
-        addKeys("",
-                MAP.readTree(json),
-                (k, v) -> {
-                    if (StringUtils.isNotBlank(v)) {
-                        buffer.append(v)
-                              .append(TAB);
-                    }
-                });
+        try {
+            addKeys("",
+                    MAP.readTree(json),
+                    (k, v) -> {
+                        if (StringUtils.isNotBlank(v)) {
+                            buffer.append(v)
+                                  .append(TAB);
+                        }
+                    });
+        }
+        catch (IOException e) {
+            throw new ExtractContentException("Failed to convert content into Json ", e);
+        }
 
         return Lists.newArrayList(buffer.toString());
     }

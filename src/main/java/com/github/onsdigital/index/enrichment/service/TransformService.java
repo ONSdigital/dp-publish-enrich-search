@@ -1,10 +1,10 @@
 package com.github.onsdigital.index.enrichment.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.onsdigital.index.enrichment.model.PipelineRequest;
+import com.github.onsdigital.index.enrichment.exception.EnrichServiceException;
+import com.github.onsdigital.index.enrichment.model.request.PipelineRequest;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import static com.github.onsdigital.index.enrichment.model.request.PipelineRequestBuilder.buildRequests;
 
 /**
  * Transforms the Json String into the inbound message request instance.<br/>
@@ -13,10 +13,8 @@ import java.io.IOException;
  */
 @Service
 public class TransformService {
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    public PipelineRequest transform(String json) throws IOException {
-        return MAPPER.readValue(json, PipelineRequest.class);
-
+    public PipelineRequest transform(String json) throws EnrichServiceException {
+        return buildRequests(json);
     }
+
 }

@@ -1,6 +1,9 @@
 package com.github.onsdigital.index.enrichment.elastic;
 
-import com.github.onsdigital.index.enrichment.model.Data;
+import com.github.onsdigital.index.enrichment.exception.InValidUpdateRequestException;
+import com.github.onsdigital.index.enrichment.exception.ONSPageNotFoundException;
+import com.github.onsdigital.index.enrichment.model.Page;
+import org.elasticsearch.action.ActionRequestValidationException;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -9,7 +12,9 @@ import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,35 +47,76 @@ public class ElasticRepository {
         return this;
     }
 
-    public Data loadData(String id, String index, String type) {
+    public Page loadData(String id, String index, String type) {
 
         GetResponse document = getElasticClient().get(new GetRequest(index, type, id))
                                                  .actionGet();
 
-        return new Data().setId(document.getId())
+        return new Page().setId(document.getId())
                          .setIndex(document.getIndex())
                          .setType(document.getType())
-                         .setSource(document.getSource());
+                         .setSource(document.getSource())
+                         .setVersion(document.getVersion());
+
+    }
+
+    public Page loadPage(String id, String index) throws ONSPageNotFoundException {
+        Page returnPage = null;
+        SearchHits hits = getElasticClient().prepareSearch()
+                                            .setIndices(index)
+                                            .setQuery(QueryBuilders.termQuery("_id", id))
+                                            .setSize(1)
+                                            .setVersion(true)
+                                            .execute()
+                                            .actionGet()
+                                            .getHits();
+
+        if (hits.getHits().length == 1) {
+            SearchHit page = hits.getHits()[0];
+            returnPage = new Page().setId(page.getId())
+                                   .setIndex(page.getIndex())
+                                   .setType(page.getType())
+                                   .setSource(page.getSource())
+                                   .setVersion(page.getVersion());
+        }
+        else {
+            throw new ONSPageNotFoundException("Could not find a page for '" + id + "' in index " + index);
+        }
+
+        return returnPage;
 
     }
 
 
-    public void upsertData(String id, String index, String type, Map<String, Object> updatedSource) {
+    public void upsertData(String id, String index, String type, Map<String, Object> updatedSource,
+                           Long version) throws InValidUpdateRequestException {
         UpdateRequestBuilder updateRequestBuilder = getElasticClient().prepareUpdate(index, type, id);
-
+        //If Version sent use it
+        if (null != version) {
+            updateRequestBuilder.setVersion(version);
+        }
         updateRequestBuilder.setDoc(updatedSource);
         updateRequestBuilder.setUpsert(updatedSource);
+        try {
 
-        UpdateResponse updateResponse = updateRequestBuilder.execute()
-                                                            .actionGet();
-
-
-        LOGGER.info("upsertData([id => {}, index => {}, type => {}, was it new? ={}, version ={} ]) : ",
+            UpdateResponse updateResponse = updateRequestBuilder.execute()
+                                                                .actionGet();
+            LOGGER.info("upsertData([id => {}, index => {}, type => {}, was it new? ={}, version ={} ]) : ",
+                        id,
+                        index,
+                        type,
+                        updateResponse.isCreated(),
+                        updateResponse.getVersion());
+        }
+        catch (ActionRequestValidationException re) {
+            LOGGER.warn(
+                    "upsertData([id, index, type, updatedSource, version]) : failed to update document '{}' due to {}",
                     id,
-                    index,
-                    type,
-                    updateResponse.isCreated(),
-                    updateResponse.getVersion());
+                    re.getMessage());
+            throw new InValidUpdateRequestException("Error inserting record " + re.getMessage(), re);
+        }
+
+
 
     }
 
@@ -80,7 +126,7 @@ public class ElasticRepository {
      * @param index
      * @return
      */
-    public List<Data> listAllIndexDocuments(String index) {
+    public List<Page> listAllIndexDocuments(String index) {
         LOGGER.info("listAllIndexDocuments([index]) : for index '{}' ", index);
 
 
@@ -95,7 +141,7 @@ public class ElasticRepository {
         SearchResponse searchResponse = query.execute()
                                              .actionGet();
 
-        final List<Data> indexedDocuments = new ArrayList<>();
+        final List<Page> indexedDocuments = new ArrayList<>();
         final AtomicLong i = new AtomicLong();
         SearchHit[] hits = searchResponse.getHits()
                                          .getHits();
@@ -103,7 +149,7 @@ public class ElasticRepository {
 
             Arrays.stream(hits)
                   .forEach(d -> {
-                      indexedDocuments.add(new Data().setId(d.getId())
+                      indexedDocuments.add(new Page().setId(d.getId())
                                                      .setIndex(d.getIndex())
                                                      .setType(d.getType())
                                                      .setSource(d.getSource()));

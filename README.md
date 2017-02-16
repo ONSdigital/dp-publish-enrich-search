@@ -15,7 +15,7 @@ Currently we are using a simple 'non-wrapped'
 {
   "collectionId": "abc",
   "fileLocation": "file://Test/file/location",
-  "s3Location": "s3://ons-web-data/2016-03-11/site/businessindustryandtrade/retailindustry/bulletins/retailsales/january2016/f3548b32.json"
+  "fileLocation": "s3://ons-web-page/2016-03-11/site/businessindustryandtrade/retailindustry/bulletins/retailsales/january2016/f3548b32.json"
 }
 ```
 
@@ -40,7 +40,7 @@ This enrichment micro-service is a [Spring Integration&trade;](https://projects.
  Thus the current implementation can concentrate on the implementation (and testing) of the services: 
  
  * _DocumentLoaderService_<br/> 
-    Loads the page data from the file location whether local, S3 or http
+    Loads the page page from the file location whether local, S3 or http
  * _EnrichmentService_<br/>
     Loads the download content and decodes the documents, attaching the ascii text to the index-able document
  * _UpsertService_<br/>
@@ -109,13 +109,13 @@ By supplying this request the whole "ons" index is loaded and the downloads dire
 Once the file system is moved to the S3 file system we will need to revisit this
 
 ###Enrich a single resource
-If the location of the underlying `data.json` file is known (i.e. local file:/classpath:/http:/s3:) then the file can be supplied with the full path for it to be loaded and enriched
+If the location of the underlying `page.json` file is known (i.e. local file:/classpath:/http:/s3:) then the file can be supplied with the full path for it to be loaded and enriched
 ```
 {
   "EnrichResourceDocumentsRequest": {
     "resources": [
       {
-        "dataFileLocation": "s3://ons-web-data/publishing/2017-01-23/master/aboutus/careers/benefits/data.json"
+        "dataFileLocation": "s3://ons-web-page/publishing/2017-01-23/master/aboutus/careers/benefits/page.json"
       }
     ]
   }

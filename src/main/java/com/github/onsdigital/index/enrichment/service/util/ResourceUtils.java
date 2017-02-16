@@ -1,4 +1,4 @@
-package com.github.onsdigital.index.enrichment.service.analyse.util;
+package com.github.onsdigital.index.enrichment.service.util;
 
 
 import org.apache.commons.io.FilenameUtils;
@@ -13,6 +13,8 @@ import java.io.InputStream;
 public class ResourceUtils {
 
     public static final String JSON = "json";
+
+    public static final String DATA_JSON = "data.json";
 
     private ResourceUtils() {
         //DO NOT INSTANTIATE
@@ -33,6 +35,31 @@ public class ResourceUtils {
         return StringUtils.equalsIgnoreCase(extension, JSON);
 
     }
+
+    public static String deriveUriFromJsonFileLocation(final String fileLocation) {
+        String uri;
+        if (DATA_JSON.equalsIgnoreCase(FilenameUtils.getName(fileLocation))) {
+            uri = FilenameUtils.getFullPath(fileLocation);
+        }
+        else if (JSON.equalsIgnoreCase(FilenameUtils.getExtension(fileLocation))) {
+            uri = FilenameUtils.removeExtension(fileLocation);
+        }
+        else {
+            uri = fileLocation;
+        }
+
+        //Remove trailing  with "/" if present
+        if (StringUtils.endsWith(uri, "/")) {
+            uri = StringUtils.removeEnd(uri, "/");
+        }
+        //Top  with "/" if missing
+        if (!StringUtils.startsWith(uri, "/")) {
+            uri = "/" + uri;
+        }
+
+        return uri;
+    }
+
 
     public static String substituteFileName(String originalFile, String replacementFilename) {
 

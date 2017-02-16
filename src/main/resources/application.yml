@@ -1,6 +1,4 @@
-
-root-dir: s3://ons-web-data/publishing/2017-01-23/master/
-
+root-dir: s3://ons-web-page/publishing/2017-01-23/master/
 cloud:
   aws:
     credentials:
@@ -26,8 +24,8 @@ spring:
       group-id: dpEnrichedPublishedDocument
       enable-auto-commit: true
       auto-commit-interval: 100
-      max-poll-interval: 300000
-      max-poll-records: 1
+#      max-poll-interval: 300000
+      max-poll-records: 10
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
@@ -39,6 +37,15 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   application:
     name: EnrichSearch
+  autoconfigure:
+    exclude: org.springframework.cloud.aws.autoconfigure.mail.MailSenderAutoConfiguration
+  jmx:
+    enabled: false
+  activemq:
+    in-memory: false
+  artemis:
+    embedded:
+      enabled: false
 
 elasticsearch:
 #  cluster-name: ONSCluster
