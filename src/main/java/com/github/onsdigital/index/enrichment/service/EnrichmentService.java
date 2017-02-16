@@ -13,7 +13,7 @@ import static com.github.onsdigital.index.enrichment.model.ModelEnum.PAGEDATA;
 import static com.github.onsdigital.index.enrichment.service.util.PageUtils.attachDownload;
 
 /**
- * Enrichment Service that takes a document add the JSON document
+ * Enrichment Service that takes a indexed Page and the relevant content and combined the two into an updated
  *
  * @author James Fawke
  * @since 0.0.1

@@ -17,6 +17,15 @@ public class UpsertService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UpsertService.class);
 
+    public ElasticRepository getRepo() {
+        return repo;
+    }
+
+    public UpsertService setRepo(final ElasticRepository repo) {
+        this.repo = repo;
+        return this;
+    }
+
     @Autowired
     private ElasticRepository repo;
 
@@ -28,7 +37,7 @@ public class UpsertService {
      */
     public boolean upsert(Page obj) throws InValidUpdateRequestException {
         LOGGER.info("upsertDocument([obj]) : id {}", obj.getId());
-        repo.upsertData(obj.getId(), obj.getIndex(), obj.getType(), obj.getSource(), obj.getVersion());
+        getRepo().upsertData(obj.getId(), obj.getIndex(), obj.getType(), obj.getSource(), obj.getVersion());
         return true;
     }
 }

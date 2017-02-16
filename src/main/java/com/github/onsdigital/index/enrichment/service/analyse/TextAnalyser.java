@@ -7,8 +7,6 @@ import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.TokenFilterFactory;
 import org.apache.lucene.analysis.util.TokenizerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -23,7 +21,6 @@ import java.util.List;
  * @author James Fawke
  */
 class TextAnalyser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TextAnalyser.class);
 
     private final List<TokenFilterFactory> filterFactories = new ArrayList<>();
     private TokenizerFactory tokenizer = new StandardTokenizerFactory(new HashMap<>());

@@ -24,8 +24,10 @@ import org.springframework.retry.interceptor.RetryInterceptorBuilder;
 import javax.annotation.PostConstruct;
 
 /**
- * Created by fawks on 31/01/2017.
- */
+ *  Builds the Integration Flow for the consumer
+ *
+ **/
+
 @Configuration
 public class ConsumerDefinition {
     public static final String ERROR_CHANNEL = "exceptionChannel";
@@ -93,8 +95,9 @@ public class ConsumerDefinition {
                 .from(messageConsumer)
                 .handle(transformService)
                 .handle(extractService)
-                .gateway(processChannel(), e -> e.advice(retryAdvice()))
-                .handle(terminatingService)
+                .gateway(processChannel(),
+                         e -> e.advice(retryAdvice()))//Call Gateway flow and then retry if any exception
+                .handle(terminatingService)// Fix the integration flow issue to return to the queue and pick up another, otherwise it just waits
                 .get();
     }
 

@@ -5,6 +5,7 @@ import com.github.onsdigital.index.enrichment.model.payload.UpdatePageDataPayloa
 import com.github.onsdigital.index.enrichment.model.payload.UpdateResourcePayload;
 import com.github.onsdigital.index.enrichment.model.request.EnrichPageRequest;
 import com.github.onsdigital.index.enrichment.model.request.EnrichResourceRequest;
+import com.github.onsdigital.index.enrichment.service.extract.ContentExtractor;
 import com.github.onsdigital.index.enrichment.service.extract.ContentExtractorFactory;
 import com.github.onsdigital.index.enrichment.service.util.JsonToStringConverter;
 import org.slf4j.Logger;
@@ -23,12 +24,14 @@ import static com.github.onsdigital.index.enrichment.model.ModelEnum.UPDATED_AT;
 import static com.github.onsdigital.index.enrichment.service.util.ResourceUtils.deriveUriFromJsonFileLocation;
 
 /**
- * Created by fawks on 16/02/2017.
+ * Extract the content from the file (with embedded Json or a S3/File: resoruce the contents is extracts, ready for adding to the page
  */
 @Service
 public class ExtractContentService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ExtractContentService.class);
-    public static final String JSON = "json";
+
+
     @Autowired
     private ContentExtractorFactory extractorFactory;
 
@@ -52,7 +55,7 @@ public class ExtractContentService {
                                           .setS3Location(request.getS3Location());
     }
 
-    public UpdatePageDataPayload load(EnrichPageRequest request) throws EnrichServiceException {
+    public UpdatePageDataPayload extract(EnrichPageRequest request) throws EnrichServiceException {
 
         String fileLocation = deriveUriFromJsonFileLocation(request.getFileLocation());
         LOGGER.info("load([EnrichPageRequest]) : extracting Json fpr page {}", fileLocation);
@@ -63,8 +66,6 @@ public class ExtractContentService {
 
     }
 
-
-
     private Map<String, Object> extractDownloadContent(final String dataJsonLocation) throws EnrichServiceException {
         Map<String, Object> content = new HashMap<>();
         content.put(FILE.getIndexDocProperty(), dataJsonLocation);
@@ -74,8 +75,8 @@ public class ExtractContentService {
     }
 
     private List<String> extractContent(final String dataJson, final String filePath) throws EnrichServiceException {
-        return extractorFactory.getInstance(dataJson, filePath)
-                               .extract();
+        ContentExtractor instance = getExtractorFactory().getInstance(dataJson, filePath);
+        return instance.extract();
     }
 
 }

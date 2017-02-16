@@ -11,7 +11,7 @@ import java.util.List;
 public class UpdatePageDataPayload extends AbstractPayload<UpdatePageDataPayload> {
 
 
-    private List content;
+    private List<String> content;
 
     @Override
     public boolean equals(final Object o) {
@@ -39,11 +39,11 @@ public class UpdatePageDataPayload extends AbstractPayload<UpdatePageDataPayload
                 .toHashCode();
     }
 
-    public List getContent() {
+    public List<String> getContent() {
         return content;
     }
 
-    public UpdatePageDataPayload setContent(final List content) {
+    public UpdatePageDataPayload setContent(final List<String> content) {
         this.content = content;
         return (UpdatePageDataPayload) this;
     }
