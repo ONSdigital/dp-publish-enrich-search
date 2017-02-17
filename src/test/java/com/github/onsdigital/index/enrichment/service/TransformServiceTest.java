@@ -28,7 +28,7 @@ public class TransformServiceTest {
     public void transformEnrichResourceRequest() throws Exception {
 
         EnrichResourceRequest expectedRequest = new EnrichResourceRequest().setS3Location("TestS3Location")
-                                                                           .setFileLocation("testURI");
+                                                                           .setFileLocation("testFileLocation");
 
         String requestJson = new ObjectMapper().writeValueAsString(expectedRequest);
         PipelineRequest actualRequest = new TransformService().transform(requestJson);

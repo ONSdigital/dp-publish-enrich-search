@@ -38,7 +38,7 @@ public class PipelineRequestBuilderTest {
 
 
     @Test(expected = EnrichServiceException.class)
-    public void testEnrichPageRequestNoURIField() throws EnrichServiceException {
+    public void testEnrichPageRequestNoFileLocationField() throws EnrichServiceException {
         ObjectMapper mapper = new ObjectMapper();
         PipelineRequest pipelineRequest = PipelineRequestBuilder.buildRequests(
                 "{ \"collectionId\":\"test-0001\", \"s3Location\": \"file:localhost\",\"anotherField\":\"ignoreme\" }");

@@ -57,10 +57,10 @@ public class ExtractContentServiceTest {
 
         EnrichResourceRequest request = new EnrichResourceRequest();
         String s3Location = "s3://location";
-        String testURI = "testURI";
+        String testFilelocation = "testFilelocation";
 
         request.setS3Location(s3Location);
-        request.setFileLocation(testURI);
+        request.setFileLocation(testFilelocation);
 
         UpdateResourcePayload payload = service.extract(request);
 
@@ -70,7 +70,7 @@ public class ExtractContentServiceTest {
                      payload.getContent()
                             .get(CONTENT.getIndexDocProperty()));
         assertEquals(s3Location, payload.getS3Location());
-        assertEquals(testURI, payload.getUri());
+        assertEquals(testFilelocation, payload.getUri());
     }
 
     @Test

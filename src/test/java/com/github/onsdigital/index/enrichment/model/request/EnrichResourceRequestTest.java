@@ -27,8 +27,8 @@ public class EnrichResourceRequestTest {
     }
 
     @Test
-    public void testGetUri() throws Exception {
-        String expected = "testUri";
+    public void testGetFileLocation() throws Exception {
+        String expected = "testFileLocation";
         assertEquals(expected,
                      new EnrichResourceRequest().setFileLocation(expected)
                                                 .getFileLocation());
@@ -36,36 +36,36 @@ public class EnrichResourceRequestTest {
 
     @Test
     public void testEquals() throws Exception {
-        String testUri = "testUri";
+        String testFileLocation = "testFileLocation";
         String testS3 = "s3Loc";
-        assertEquals(buildRequest(testUri, testS3), buildRequest(testUri, testS3));
+        assertEquals(buildRequest(testFileLocation, testS3), buildRequest(testFileLocation, testS3));
     }
 
     @Test
     public void testEqualsFalseOnS3() throws Exception {
         String testS3 = "s3Loc";
-        assertNotEquals(buildRequest("uri1", testS3), buildRequest("uri2", testS3));
+        assertNotEquals(buildRequest("fileLocation", testS3), buildRequest("fileLocation2", testS3));
     }
 
     @Test
-    public void testEqualsFalseOnUri() throws Exception {
-        String testUri = "testUri";
-        assertNotEquals(buildRequest(testUri, "s3loc1"), buildRequest(testUri, "s3Loc2"));
+    public void testEqualsFalseOnFileLocation() throws Exception {
+        String testFileLocation = "testFileLocation";
+        assertNotEquals(buildRequest(testFileLocation, "s3loc1"), buildRequest(testFileLocation, "s3Loc2"));
     }
 
 
     @Test
     public void testHashCode() throws Exception {
-        String testUri = "testUri";
+        String testFileLocation = "testFileLocation";
         String testS3 = "s3Loc";
-        assertEquals(buildRequest(testUri, testS3).hashCode(), buildRequest(testUri, testS3).hashCode());
+        assertEquals(buildRequest(testFileLocation, testS3).hashCode(), buildRequest(testFileLocation, testS3).hashCode());
     }
 
     @Test
     public void testJsonSerialisation() throws IOException {
-        String testUri = "testUri";
+        String testFileLocation = "testFileLocation";
         String testS3 = "s3://s3Loc";
-        EnrichResourceRequest expected = buildRequest(testUri, testS3);
+        EnrichResourceRequest expected = buildRequest(testFileLocation, testS3);
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         String json = mapper.writeValueAsString(expected);
@@ -77,8 +77,8 @@ public class EnrichResourceRequestTest {
 
     }
 
-    private EnrichResourceRequest buildRequest(final String testUri, final String testS3) {
-        return new EnrichResourceRequest().setFileLocation(testUri)
+    private EnrichResourceRequest buildRequest(final String testFileLocation, final String testS3) {
+        return new EnrichResourceRequest().setFileLocation(testFileLocation)
                                           .setS3Location(testS3);
     }
 }

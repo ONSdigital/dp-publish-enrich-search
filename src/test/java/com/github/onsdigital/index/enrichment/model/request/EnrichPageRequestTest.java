@@ -18,8 +18,8 @@ public class EnrichPageRequestTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnrichPageRequestTest.class);
 
     @Test
-    public void testUri() throws Exception {
-        String expected = "testUri";
+    public void testFileLocation() throws Exception {
+        String expected = "testFileLocation";
         assertEquals(expected,
                      new EnrichPageRequest().setFileLocation(expected)
                                             .getFileLocation());
@@ -36,9 +36,9 @@ public class EnrichPageRequestTest {
 
     @Test
     public void testEquals() throws Exception {
-        String testUri = "testUri";
+        String testFileLocation = "testFileLocation";
         String content = "testContent";
-        assertEquals(buildRequest(testUri, content), buildRequest(testUri, content));
+        assertEquals(buildRequest(testFileLocation, content), buildRequest(testFileLocation, content));
     }
 
     @Test
@@ -50,23 +50,23 @@ public class EnrichPageRequestTest {
 
     @Test
     public void testEqualsFalseOnUri() throws Exception {
-        String testUri = "testUri";
-        assertNotEquals(buildRequest(testUri, "test1"), buildRequest(testUri, "test2"));
+        String testFileLocation = "testFileLocation";
+        assertNotEquals(buildRequest(testFileLocation, "test1"), buildRequest(testFileLocation, "test2"));
     }
 
 
     @Test
     public void testHashCode() throws Exception {
-        String testUri = "testUri";
+        String testFileLocation = "testFileLocation";
         String testContent = "json:fileContent";
-        assertEquals(buildRequest(testUri, testContent).hashCode(), buildRequest(testUri, testContent).hashCode());
+        assertEquals(buildRequest(testFileLocation, testContent).hashCode(), buildRequest(testFileLocation, testContent).hashCode());
     }
 
     @Test
     public void testJsonSerialisation() throws IOException {
-        String testUri = "testUri";
+        String testFileLocation = "testFileLocation";
         String testContent = "json:fileContent";
-        EnrichPageRequest expected = buildRequest(testUri, testContent);
+        EnrichPageRequest expected = buildRequest(testFileLocation, testContent);
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         String json = mapper.writeValueAsString(expected);
@@ -75,8 +75,8 @@ public class EnrichPageRequestTest {
         assertEquals(expected, actual);
     }
 
-    private EnrichPageRequest buildRequest(final String uri, final String fileContent) {
-        return new EnrichPageRequest().setFileLocation(uri)
+    private EnrichPageRequest buildRequest(final String fileLocation, final String fileContent) {
+        return new EnrichPageRequest().setFileLocation(fileLocation)
                                       .setFileContent(fileContent);
     }
 }
