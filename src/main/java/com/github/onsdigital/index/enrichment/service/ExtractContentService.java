@@ -48,10 +48,10 @@ public class ExtractContentService {
     public UpdateResourcePayload extract(EnrichResourceRequest request) throws EnrichServiceException {
         LOGGER.info("extract([EnrichResourceRequest]) : extracting downloadContent {} for page {}",
                     request.getS3Location(),
-                    request.getUri());
+                    request.getFileLocation());
 
         return new UpdateResourcePayload().setContent(extractDownloadContent(request.getS3Location()))
-                                          .setUri(request.getUri())
+                                          .setUri(request.getFileLocation())
                                           .setS3Location(request.getS3Location());
     }
 

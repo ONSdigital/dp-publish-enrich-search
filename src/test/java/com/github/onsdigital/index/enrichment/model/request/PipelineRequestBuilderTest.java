@@ -23,7 +23,7 @@ public class PipelineRequestBuilderTest {
     public void testEnrichPageRequest() throws EnrichServiceException {
         ObjectMapper mapper = new ObjectMapper();
         PipelineRequest pipelineRequest = PipelineRequestBuilder.buildRequests(
-                "{ \"collectionId\":\"test-0001\", \"uri\": \"/about/data\", \"s3Location\": \"file:localhost\" }");
+                "{ \"collectionId\":\"test-0001\", \"fileLocation\": \"/about/data\", \"s3Location\": \"file:localhost\" }");
         assertNotNull(pipelineRequest);
 
     }
@@ -32,7 +32,7 @@ public class PipelineRequestBuilderTest {
     public void testEnrichPageRequestIgnoreExtraField() throws EnrichServiceException {
         ObjectMapper mapper = new ObjectMapper();
         PipelineRequest pipelineRequest = PipelineRequestBuilder.buildRequests(
-                "{ \"collectionId\":\"test-0001\", \"uri\": \"/about/data\", \"s3Location\": \"file:localhost\",\"anotherField\":\"ignoreme\" }");
+                "{ \"collectionId\":\"test-0001\", \"fileLocation\": \"/about/data\", \"s3Location\": \"file:localhost\",\"anotherField\":\"ignoreme\" }");
         assertNotNull(pipelineRequest);
     }
 

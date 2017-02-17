@@ -60,8 +60,8 @@ public class PipelineRequestBuilder {
         if (StringUtils.isBlank(enrichResourceRequest.getS3Location())) {
             throw new EnrichServiceException(String.format(MISSING_PROPERTY, "S3Location property", json));
         }
-        if (StringUtils.isBlank(enrichResourceRequest.getUri())) {
-            throw new EnrichServiceException(String.format(MISSING_PROPERTY, "URI property", json));
+        if (StringUtils.isBlank(enrichResourceRequest.getFileLocation())) {
+             throw new EnrichServiceException(String.format(MISSING_PROPERTY, "URI property", json));
         }
 
         return request;

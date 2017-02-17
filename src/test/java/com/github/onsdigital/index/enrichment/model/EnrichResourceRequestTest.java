@@ -23,8 +23,8 @@ public class EnrichResourceRequestTest {
         EnrichResourceRequest r = new EnrichResourceRequest();
         String testFileLocation = "testFileLocation";
         assertEquals(testFileLocation,
-                     r.setUri(testFileLocation)
-                      .getUri());
+                     r.setFileLocation(testFileLocation)
+                      .getFileLocation());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class EnrichResourceRequestTest {
     @Test
     public void serialize() throws IOException {
         EnrichResourceRequest expected = new EnrichResourceRequest().setS3Location("s3://bucket/package/file.json")
-                                                                    .setUri("/Test/file/location");
+                                                                    .setFileLocation("/Test/file/location");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String s = objectMapper.writeValueAsString(expected);

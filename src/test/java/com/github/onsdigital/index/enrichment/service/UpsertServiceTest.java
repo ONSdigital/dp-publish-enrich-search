@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UpsertServiceTest {
@@ -36,8 +36,8 @@ public class UpsertServiceTest {
             .setVersion(testVersion);
 
 
-        doNothing().when(repo)
-                   .upsertData(eq(testId), eq(testIndex), eq(testType), eq(testSource), eq(testVersion));
+        when(repo.upsertData(eq(testId), eq(testIndex), eq(testType), eq(testSource), eq(testVersion)))
+                .thenReturn(true);
 
         new UpsertService().setRepo(repo)
                            .upsert(page);

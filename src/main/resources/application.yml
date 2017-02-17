@@ -1,13 +1,8 @@
 root-dir: s3://ons-web-page/publishing/2017-01-23/master/
 cloud:
   aws:
-    credentials:
-      accessKey: ${S3_ACCESS_KEY}
-      secretKey: ${S3_SECRET_ACCESS_KEY}
-      instanceProfile: true
     region:
       static: eu-west-1
-
 kafka:
   zookeeper:
     connect: localhost:9092

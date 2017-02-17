@@ -30,8 +30,8 @@ public class EnrichResourceRequestTest {
     public void testGetUri() throws Exception {
         String expected = "testUri";
         assertEquals(expected,
-                     new EnrichResourceRequest().setUri(expected)
-                                                .getUri());
+                     new EnrichResourceRequest().setFileLocation(expected)
+                                                .getFileLocation());
     }
 
     @Test
@@ -78,7 +78,7 @@ public class EnrichResourceRequestTest {
     }
 
     private EnrichResourceRequest buildRequest(final String testUri, final String testS3) {
-        return new EnrichResourceRequest().setUri(testUri)
+        return new EnrichResourceRequest().setFileLocation(testUri)
                                           .setS3Location(testS3);
     }
 }

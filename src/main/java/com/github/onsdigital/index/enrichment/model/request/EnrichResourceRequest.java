@@ -10,7 +10,7 @@ public class EnrichResourceRequest implements PipelineRequest {
 
 
     private String s3Location;
-    private String uri;
+    private String fileLocation;
 
 
     public String getS3Location() {
@@ -22,12 +22,12 @@ public class EnrichResourceRequest implements PipelineRequest {
         return this;
     }
 
-    public String getUri() {
-        return uri;
+    public String getFileLocation() {
+        return fileLocation;
     }
 
-    public EnrichResourceRequest setUri(final String uri) {
-        this.uri = uri;
+    public EnrichResourceRequest setFileLocation(final String fileLocation) {
+        this.fileLocation = fileLocation;
         return this;
     }
 
@@ -45,7 +45,7 @@ public class EnrichResourceRequest implements PipelineRequest {
 
         return new EqualsBuilder()
                 .append(getS3Location(), that.getS3Location())
-                .append(getUri(), that.getUri())
+                .append(getFileLocation(), that.getFileLocation())
                 .isEquals();
     }
 
@@ -53,7 +53,7 @@ public class EnrichResourceRequest implements PipelineRequest {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getS3Location())
-                .append(getUri())
+                .append(getFileLocation())
                 .toHashCode();
     }
 

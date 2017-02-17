@@ -60,7 +60,7 @@ public class ExtractContentServiceTest {
         String testURI = "testURI";
 
         request.setS3Location(s3Location);
-        request.setUri(testURI);
+        request.setFileLocation(testURI);
 
         UpdateResourcePayload payload = service.extract(request);
 
