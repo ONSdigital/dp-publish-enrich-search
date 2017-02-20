@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
  *
  *  You can see this in the <code>ConsumerDefinition</code><p/>
  *
- * @see com.github.onsdigital.index.enrichment.ConsumerDefinition
- *
+ * @see com.github.onsdigital.index.enrichment.ConsumerDefinition ConsumerDefinition
+ * <p/>
+ *...<p/>
  *  <code>
  *  return IntegrationFlows<br/>
  *  .from(messageConsumer)<br/>
