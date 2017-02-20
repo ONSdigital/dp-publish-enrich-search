@@ -68,6 +68,36 @@ export S3_ACCESS_KEY=khj123j8sfdjk12NotARealKey
 
 ### Configuration 
 Configuration is all located in a single Yaml file [application.yml](src/main/resources/application.yml)
+To override the default configuration you can pass the configuration values in to JVM `-D` arguments as dot notation for example;
+For example:
+ 
+```
+elasticsearch:
+    inet-addresses:
+          -
+            host: 127.0.0.1
+```
+
+becomes dot.notation as
+
+ ```
+ -Delasticsearch.inetAddresses[0].host=127.0.0.1
+ ``` 
+Therefore it is possible to override the following settings;
+
+| dot.notation | Description | Default ''
+| `cloud.aws.region.static` | The AWS region | eu-west-1 |
+| `kafka.zookeeper.connect` | The connection details for the ZooKeeper that manages the Kafka instance we are connecting to | `localhost:9092` |
+| `kafka.zookeeper.connect` | The connection details for the ZooKeeper that manages the Kafka instance we are connecting to | `localhost:9092` |
+| `kafka.topic` | The topic to listen on for messages | `dp.enrichment` |
+| `kafka.consumers` | The number of threads to process messages | `4` |
+| `elasticsearch.inetAddresses[0].host` | The first name of the ElasticSearch host (or IP Address) | `localhost` |
+| `elasticsearch.inetAddresses[0].port` | The first name of the ElasticSearch port | `9300` |
+| `elasticsearch.inetAddresses[1].host` | The second name of the ElasticSearch host (or IP Address) | |
+| `elasticsearch.inetAddresses[1].port` | The second name of the ElasticSearch port |  |
+ 
+
+
 
 ##Design
 
@@ -103,7 +133,7 @@ self-executable jar file.
 (We have experienced classloader issues with uber-jar/jar-with-dependencies, that we have not with Spring Boots specialized classloader).
 
 Currently we are building an executable jar file that can be executed directly, the AWS Keys are required to be exposed
- as enironment variables 
+ as environment variables 
     
 
 ## Appendix
