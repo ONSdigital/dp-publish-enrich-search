@@ -30,15 +30,15 @@ Enrich existing page based on the content of the message is received as:
 ```
 {
   "fileContent" : "json:fileContent",
-  "filelocation" : "/blah/blah/blah/XXXXX.json"
+  "fileLocation" : "/blah/blah/blah/XXXXX.json"
 }
 ``` 
 
 Enrich existing based on a filebase resource is received as:
 ```
 {
-  "fileContent" : "s3://s3Loc",
-  "filelocation" : "/blah/blah/blah/"
+  "s3Location" : "s3://s3Loc",
+  "fileLocation" : "/blah/blah/blah/"
 }
 ```
 
