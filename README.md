@@ -37,7 +37,7 @@ Enrich existing page based on the content of the message is received as:
 Enrich existing based on a filebase resource is received as:
 ```
 {
-  "s3Location" : "s3://s3Loc",
+  "fileContent" : "s3://s3Loc",
   "filelocation" : "/blah/blah/blah/"
 }
 ```
@@ -73,7 +73,7 @@ For example:
  
 ```
 elasticsearch:
-    inet-addresses:
+    http-addresses:
           -
             host: 127.0.0.1
 ```
@@ -81,7 +81,7 @@ elasticsearch:
 becomes dot.notation as
 
  ```
- -Delasticsearch.inetAddresses[0].host=127.0.0.1
+ -Delasticsearch.httpAddresses[0].host=127.0.0.1
  ``` 
 Therefore it is possible to override the following settings;
 
@@ -91,10 +91,10 @@ Therefore it is possible to override the following settings;
 | `kafka.zookeeper.connect` | The connection details for the ZooKeeper that manages the Kafka instance we are connecting to | `localhost:9092` |
 | `kafka.topic` | The topic to listen on for messages | `dp.enrichment` |
 | `kafka.consumers` | The number of threads to process messages | `4` |
-| `elasticsearch.inetAddresses[0].host` | The first name of the ElasticSearch host (or IP Address) | `localhost` |
-| `elasticsearch.inetAddresses[0].port` | The first name of the ElasticSearch port | `9300` |
-| `elasticsearch.inetAddresses[1].host` | The second name of the ElasticSearch host (or IP Address) | |
-| `elasticsearch.inetAddresses[1].port` | The second name of the ElasticSearch port |  |
+| `elasticsearch.httpAddresses[0].host` | The first name of the ElasticSearch host (or IP Address) | `localhost` |
+| `elasticsearch.httpAddresses[0].port` | The first name of the ElasticSearch port | `9300` |
+| `elasticsearch.httpAddresses[1].host` | The second name of the ElasticSearch host (or IP Address) | |
+| `elasticsearch.httpAddresses[1].port` | The second name of the ElasticSearch port |  |
  
 
 

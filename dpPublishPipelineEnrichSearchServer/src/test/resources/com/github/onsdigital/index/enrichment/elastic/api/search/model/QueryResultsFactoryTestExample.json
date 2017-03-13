@@ -1,0 +1,242 @@
+{
+  "took": 6,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "failed": 0
+  },
+  "hits": {
+    "total": 30,
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "beis",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "beis",
+          "name": "The Department for Business, Energy and Industrial Strategy",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=department-for-business-energy-and-industrial-strategy&from_date=&to_date=",
+          "terms": [
+            "BEIS",
+            "BIS",
+            "business",
+            "apprenticeship",
+            "building",
+            "construction",
+            "trade union",
+            "enterprise",
+            "DECC",
+            "energy",
+            "solar",
+            "coal",
+            "oil",
+            "gas",
+            "electricity",
+            "fuel poverty",
+            "renewables",
+            "greenhouse gas"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "defra",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "defra",
+          "name": "The Department for Environment Food & Rural Affairs",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=department-for-environment-food-rural-affairs",
+          "terms": [
+            "DEFRA",
+            "agriculture",
+            "farming",
+            "air quality",
+            "emissions",
+            "recycling",
+            "food",
+            "conservation",
+            "biodiversity",
+            "animals",
+            "wildlife",
+            "ecosystem"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "hmrc",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "hmrc",
+          "name": "HM Revenue & Customs",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=hm-revenue-customs",
+          "terms": [
+            "HMRC",
+            "tax",
+            "benefit",
+            "paye",
+            "national insurance",
+            "vat",
+            "tobacco"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "ho",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "ho",
+          "name": "The Home Office",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=home-office",
+          "terms": [
+            "HO",
+            "arrests",
+            "asylum",
+            "immigration",
+            "firearm",
+            "crime",
+            "visa",
+            "police",
+            "terrorism",
+            "detention"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "dclg",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "dclg",
+          "name": "The Department for Communities & Local Government",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=department-for-communities-and-local-government",
+          "terms": [
+            "DCLG",
+            "revenue expenditure",
+            "local authority",
+            "council tax",
+            "homelessness",
+            "social housing",
+            "help to buy"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "dcms",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "dcms",
+          "name": "The Department for Culture, Media & Sports",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=department-for-culture-media-sport",
+          "terms": [
+            "DCMS",
+            "charitable giving"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "dft",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "dft",
+          "name": "The Department for Transport",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=department-for-transport",
+          "terms": [
+            "DFT",
+            "bus",
+            "vehicle",
+            "driver",
+            "rider",
+            "freight",
+            "vehicle licensing",
+            "road",
+            "biofuel",
+            "road casualties",
+            "traffic congestion",
+            "road conditions",
+            "transport",
+            "car"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "dwp",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "dwp",
+          "name": "The Department for Work & Pensions",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=department-for-work-pensions",
+          "terms": [
+            "DWP",
+            "social fund",
+            "child maintenance",
+            "lone parents",
+            "child support agency",
+            "benefit fraud",
+            "universal credit",
+            "pensions",
+            "pensioners"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "dh",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "dh",
+          "name": "The Department of Health",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=department-of-health",
+          "terms": [
+            "DH",
+            "abortion"
+          ]
+        }
+      },
+      {
+        "_index": "departments",
+        "_type": "departments",
+        "_id": "mod",
+        "_version": 1,
+        "_score": 1,
+        "_source": {
+          "code": "mod",
+          "name": "The Ministry of Defence",
+          "url": "https://www.gov.uk/government/statistics?keywords=&topics%5B%5D=all&departments%5B%5D=ministry-of-defence",
+          "terms": [
+            "MOD",
+            "defence",
+            "armed forces",
+            "military",
+            "veterans",
+            "war pensions"
+          ]
+        }
+      }
+    ]
+  }
+}
