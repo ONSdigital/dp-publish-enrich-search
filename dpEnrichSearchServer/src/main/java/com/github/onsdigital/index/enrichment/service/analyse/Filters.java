@@ -25,7 +25,7 @@ public class Filters {
     }
 
     static TokenFilterFactory buildLowerCaseFilter() {
-        return new LowerCaseFilterFactory(new HashMap<String, String>());
+        return new LowerCaseFilterFactory(new HashMap<>());
     }
 
     static TokenFilterFactory buildRegexFilter() {

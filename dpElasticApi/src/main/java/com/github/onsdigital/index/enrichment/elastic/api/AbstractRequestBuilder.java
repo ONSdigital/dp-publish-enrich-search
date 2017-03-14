@@ -17,15 +17,15 @@ import java.util.Map;
  * Abstract Builder to do the grunt work and delegate to child only when specifics required
  */
 public abstract class AbstractRequestBuilder<C> implements Builder<Request> {
-    protected static final ObjectMapper MAPPER = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true)
-                                                                   .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    private static final ObjectMapper MAPPER = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true)
+                                                                 .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     private String id;
     private String index;
     private String type;
     private RestClient elasticClient;
 
-    public RestClient getElasticClient() {
+    protected RestClient getElasticClient() {
         return elasticClient;
     }
 
@@ -37,7 +37,7 @@ public abstract class AbstractRequestBuilder<C> implements Builder<Request> {
     protected abstract Action getAction();
 
 
-    public String getId() {
+    protected String getId() {
         return id;
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractRequestBuilder<C> implements Builder<Request> {
         return (C) this;
     }
 
-    public String getIndex() {
+    protected String getIndex() {
         return index;
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractRequestBuilder<C> implements Builder<Request> {
         return (C) this;
     }
 
-    public String getType() {
+    protected String getType() {
         return type;
     }
 

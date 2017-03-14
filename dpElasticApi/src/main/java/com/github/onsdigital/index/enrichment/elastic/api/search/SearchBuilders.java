@@ -8,7 +8,7 @@ public class SearchBuilders {
         //DO NOT INSTANTIATE
     }
 
-    public static final SearchBuilder termQuery(final String field, final String value) {
+    public static SearchBuilder termQuery(final String field, final String value) {
         return new SearchBuilder().setQuery(new TermQuery(field, new TermQueryOptions().setValue(value)));
     }
 

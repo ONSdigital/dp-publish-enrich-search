@@ -32,7 +32,7 @@ public class ElasticDefinition {
         return config.getHttpAddresses()
                      .stream()
                      .map(cfg -> new HttpHost(cfg.getHost(), cfg.getPort(), cfg.getScheme()))
-                     .toArray(size -> new HttpHost[size]);
+                     .toArray(HttpHost[]::new);
 
     }
 

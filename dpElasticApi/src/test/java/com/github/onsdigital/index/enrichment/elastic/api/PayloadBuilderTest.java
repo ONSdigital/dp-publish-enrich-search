@@ -37,7 +37,7 @@ public class PayloadBuilderTest {
                 plb.build()
                    .keySet()
                    .stream()
-                   .filter(k -> "StringTestKey".equals(k))
+                   .filter("StringTestKey"::equals)
                    .findFirst()
                    .isPresent());
     }

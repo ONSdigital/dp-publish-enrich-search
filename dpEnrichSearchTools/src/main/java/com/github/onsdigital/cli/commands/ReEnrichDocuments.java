@@ -80,8 +80,8 @@ public class ReEnrichDocuments implements Command {
         }
     }
 
-    private List<Request> processDownloads(final File file, final File outputFile) {
-        List<Request> downloadRequests = null;
+    private void  processDownloads(final File file, final File outputFile) {
+
         try {
             final Map<String, Object> map = MAPPER.readValue(file, Map.class);
             final List<Map<String, String>> downloads = (List<Map<String, String>>) map.get("downloads");
@@ -108,7 +108,6 @@ public class ReEnrichDocuments implements Command {
             LOGGER.error("processDownloads([file, outputFile]) : {}", e.getMessage(), e);
 
         }
-        return downloadRequests;
     }
 
     private String deriveLocation(final String file, final String url) {

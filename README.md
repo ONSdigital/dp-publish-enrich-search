@@ -56,7 +56,7 @@ The Kafka consumer is listening to a inbound topic of `dp.enrichment`
 connect to S3 for the file resources
 ```properties
 [default]
-aws_access_key_id = X2C£FS$FNOTAREALKEY	
+aws_access_key_id = X2C£FS$FNOTAREALKEY
 aws_secret_access_key = khj123j8sfdjk12Not4AR34lK3y
 ```
 If you do not have this configuration then you can set the environment variables manually before running.

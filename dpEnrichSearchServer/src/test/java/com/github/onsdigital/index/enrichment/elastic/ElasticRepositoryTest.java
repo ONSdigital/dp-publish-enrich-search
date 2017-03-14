@@ -72,7 +72,7 @@ public class ElasticRepositoryTest {
         final String type = "testType";
         final String index = "testIndex";
         final String id = "testId";
-        final Map<String, Object> source = new HashMap<String, Object>();
+        final Map<String, Object> source = new HashMap<>();
         source.put("title", "testTitle");
 
 
