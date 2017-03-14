@@ -37,7 +37,12 @@ public class CommandLineTool {
         Command requestedCommand = (Command) jCommander
                 .getObjects()
                 .get(0);
-        requestedCommand.execute();
+        if (requestedCommand.isHelp()) {
+            jCommander.usage();
+        }
+        else {
+            requestedCommand.execute();
+        }
 
 
     }

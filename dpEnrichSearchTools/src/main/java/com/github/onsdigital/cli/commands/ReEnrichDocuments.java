@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by guidof on 10/03/17.
  */
 @Parameters(commandNames = ReEnrichDocuments.ACTION,
-            commandDescription = "Re-enrich all files base the files on the file system")
+            commandDescription = "constructs test enrichment requests that are expected to be sent from the pipeline to a file")
 public class ReEnrichDocuments implements Command {
     static final String ACTION = "enrich";
     private static final String FILE_URL_PREFIX = "file:";
@@ -30,9 +30,11 @@ public class ReEnrichDocuments implements Command {
     private static final ObjectMapper MAPPER = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
     private static final String PATH_DELIMITER = "/";
 
+
     @Parameter(names = "--help",
                help = true)
-    boolean help = false;
+    private boolean help;
+
 
     @Parameter(names = {"--root", "-d"},
                required = true,
@@ -62,6 +64,11 @@ public class ReEnrichDocuments implements Command {
 
     }
 
+    @Override
+    public boolean isHelp() {
+        return help;
+    }
+
     private void buildDataRequest(final File file, final File outputFile) {
         Map fileContent;
         try {
@@ -80,7 +87,7 @@ public class ReEnrichDocuments implements Command {
         }
     }
 
-    private void  processDownloads(final File file, final File outputFile) {
+    private void processDownloads(final File file, final File outputFile) {
 
         try {
             final Map<String, Object> map = MAPPER.readValue(file, Map.class);
