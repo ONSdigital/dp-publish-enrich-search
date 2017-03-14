@@ -71,16 +71,7 @@ public class Request {
     public Response execute() throws ElasticSearchException {
         try {
             final Response response = elasticClient.performRequest(verb.getVerb(), endpoint, headers, payload);
-            final StatusLine statusLine = response.getStatusLine();
-            if (null != statusLine) {
-                final int statusCode = statusLine.getStatusCode();
-                if (statusCode != 404 && statusCode != 200) {
-                    final String message = String.format(FAILED_MESSAGE,
-                                                         statusLine.getStatusCode(),
-                                                         statusLine.getReasonPhrase());
-                    throw new ElasticSearchException(message);
-                }
-            }
+            checkStatus(response);
             return response;
         }
         catch (IOException io) {
@@ -90,6 +81,19 @@ public class Request {
                         payload);
             throw new ElasticSearchException("Failed to execute request against", io);
 
+        }
+    }
+
+    private void checkStatus(final Response response) throws ElasticSearchException {
+        final StatusLine statusLine = response.getStatusLine();
+        if (null != statusLine) {
+            final int statusCode = statusLine.getStatusCode();
+            if (statusCode != 404 && statusCode != 200) {
+                final String message = String.format(FAILED_MESSAGE,
+                                                     statusLine.getStatusCode(),
+                                                     statusLine.getReasonPhrase());
+                throw new ElasticSearchException(message);
+            }
         }
     }
 
