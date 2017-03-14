@@ -85,7 +85,8 @@ becomes dot.notation as
  ``` 
 Therefore it is possible to override the following settings;
 
-| dot.notation | Description | Default ''
+| dot.notation | Description | Default '' |
+| ------------ | ----------- | ---------- |
 | `cloud.aws.region.static` | The AWS region | eu-west-1 |
 | `kafka.zookeeper.connect` | The connection details for the ZooKeeper that manages the Kafka instance we are connecting to | `localhost:9092` |
 | `kafka.zookeeper.connect` | The connection details for the ZooKeeper that manages the Kafka instance we are connecting to | `localhost:9092` |

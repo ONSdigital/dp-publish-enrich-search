@@ -2,11 +2,11 @@ package com.github.onsdigital.index.enrichment.elastic.api.update;
 
 import com.github.onsdigital.index.enrichment.elastic.api.AbstractRequestBuilder;
 import com.github.onsdigital.index.enrichment.elastic.api.Action;
+import com.github.onsdigital.index.enrichment.elastic.api.PayloadBuilder;
 import com.github.onsdigital.index.enrichment.elastic.api.Verb;
 import com.github.onsdigital.index.enrichment.exception.MissingRequirementsException;
 import org.apache.commons.collections4.MapUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.github.onsdigital.index.enrichment.elastic.api.ElasticParameters.DOC;
@@ -92,18 +92,18 @@ public class UpdateBuilder extends AbstractRequestBuilder<UpdateBuilder> {
 
     @Override
     protected Map<String, Object> buildPayload() {
-        Map<String, Object> p = new HashMap<>();
+        PayloadBuilder<String, Object> p = new PayloadBuilder<>();
         p.put(DOC.getText(), getDoc());
         p.put(UPSERT.getText(), getUpsert());
-        return p;
+        return p.build();
     }
 
     @Override
     protected Map<String, String> getParameters() {
-        Map<String, String> p = new HashMap<>();
+        PayloadBuilder<String, String> p = new PayloadBuilder<>();
         if (null != version) {
             p.put(VERSION.getText(), version.toString());
         }
-        return p;
+        return p.build();
     }
 }

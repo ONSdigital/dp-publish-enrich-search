@@ -7,7 +7,7 @@ import java.util.Map;
  * Payload Builder that checks that the Key and the Value are not null when adding to the map to ensure that
  * non-requested parameters are not added to the payload with null params.
  */
-public class PayloadBuilder<K, V> {
+public class PayloadBuilder<K, V> implements Builder<Map<K, V>> {
     Map<K, V> payload = new HashMap<>();
 
     public void put(K k, V v) {

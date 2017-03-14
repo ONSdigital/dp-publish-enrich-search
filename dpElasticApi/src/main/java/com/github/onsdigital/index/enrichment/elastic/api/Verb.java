@@ -1,7 +1,7 @@
 package com.github.onsdigital.index.enrichment.elastic.api;
 
 /**
- * Created by guidof on 09/03/17.
+ * Http Verbs used to define not only the HTTP request that will be issued but also the action on ElasticSearch
  */
 public enum Verb {
     GET("GET"), PUT("PUT"), POST("POST"), DELETE("DELETE");

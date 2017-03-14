@@ -124,15 +124,13 @@ public class ElasticRepository {
                               Long version) throws ElasticSearchException {
         final String s = buildEndpoint(index, type, id, Action.UPDATE);
         final Request request = new UpdateBuilder().setElasticClient(getElasticClient())
-                                                 .setIndex(index)
-                                                 .setType(type)
-                                                 .setId(id)
-                                                 .setDoc(updatedSource)
-                                                 .build();
+                                                   .setIndex(index)
+                                                   .setType(type)
+                                                   .setId(id)
+                                                   .setDoc(updatedSource)
+                                                   .build();
         final Response response = request.execute();
-        final int statusCode = response.getStatusLine()
-                                       .getStatusCode();
-        return (statusCode == 200 || statusCode == 404);
+        return (null != response);
 
     }
 

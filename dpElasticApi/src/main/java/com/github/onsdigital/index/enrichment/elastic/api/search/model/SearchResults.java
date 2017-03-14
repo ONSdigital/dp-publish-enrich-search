@@ -3,7 +3,7 @@ package com.github.onsdigital.index.enrichment.elastic.api.search.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by guidof on 08/03/17.
+ * Object that represents the results from the search engine
  */
 public class SearchResults {
 

@@ -7,7 +7,7 @@ import org.elasticsearch.client.Response;
 import java.io.IOException;
 
 /**
- * Created by guidof on 08/03/17.
+ * Builders a SearchResult object from the Search Response.
  */
 public class SearchResultsFactory {
     private static final ObjectMapper MAPPER = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,

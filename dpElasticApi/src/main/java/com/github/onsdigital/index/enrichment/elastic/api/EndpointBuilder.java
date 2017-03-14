@@ -10,26 +10,30 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Created by guidof on 08/03/17.
+ * Endpoint Builder is used to build the URL context (excluding the host and port name).
+ * <p>
+ * It enables the call to provide the <code>Indexz/<i>alias</i></code>, <code>type</code> and <code>id</code> <br/>
+ * plus the Elastic action (<i><code>search/update</code></i> and any parameters (such as version=true).
+ * <p/>
+ * To Use you buildup the state of the EndpointBuilder instance and then request <code>build</code>
+ * <pre>
+ *    {@code
+ * String endpoint = new EndpointBuilder().setId("ons")
+ * .setType("document")
+ * .setAction(Action.SEARCH)
+ * .build();
+ *     }
+ * </pre>
  */
-public class EndpointBuilder {
+public class EndpointBuilder implements Builder<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(EndpointBuilder.class);
 
     private Map<String, String> parameters;
-    private Long version;
     private String index;
     private String type;
     private String id;
     private Action action;
 
-    public Long getVersion() {
-        return version;
-    }
-
-    public EndpointBuilder setVersion(final Long version) {
-        this.version = version;
-        return this;
-    }
 
     public String getIndex() {
         return index;

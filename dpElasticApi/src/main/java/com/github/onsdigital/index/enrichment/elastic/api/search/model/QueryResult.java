@@ -6,7 +6,7 @@ import com.github.onsdigital.index.enrichment.model.Document;
 import java.util.List;
 
 /**
- * Created by guidof on 08/03/17.
+ * Object that represents the results from each query in the the search response.
  */
 public class QueryResult {
 
