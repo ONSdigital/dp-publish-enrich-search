@@ -1,20 +1,19 @@
 # dpElasticApi
-The __dpElasticApi__ module encapsulates the HTTP RestClient interaction with the Elastic in to a single module, that isolates the 
-client from the need to understand the http interface for Elastic&trade;.
+The __dpElasticApi__ module encapsulates the HTTP RestClient interaction with ElasticSearch&trade; in to a single module, that isolates the 
+client from the need to understand the http interface for ElasticSearch&trade;. This API framework could be extended to work across all protocols, but currently it is limited to the HTTP `RestClient` that AWS Elastic provides.
 
-Could be extended to work across all protocols, but current is limited to the HTTP `RestClient` that AWS Elastic provides.
 There are three main entry points into the module;
-* LoadBuilder <br/>
+* `LoadBuilder`<br/>
  Loads a document from Elastic&trade; based on the `index/type/id` 
-* SearchBuilder<br/>
+* `SearchBuilder`<br/>
  Executes a Search against Elastic&trade; based on the `Query` used (_currently only the Term Query is supported_)
-* UpdateBuilder<br/>
+* `UpdateBuilder`<br/>
  Updates an existing document with the contents provide, `Upserts` are available if document is missing using the upsert object.
  
 ## Usage
 ### `LoadBuilder`
-To load a specific document from the `ElasticSearch` &trade; server, you need to build up the `LoadBuilder` and then create the 
-request (`Request`) using the `build()` methods.
+To load a specific document from an `ElasticSearch` &trade; server, you need to build the state of a`LoadBuilder` instance 
+and then create the request (`Request`) using the `build()` methods.
  ```java
       Request request = new LoadBuilder().setIndex("ons")
                                           .setType("document")
@@ -45,7 +44,7 @@ request (`Request`) using the `SearchBuilder`.
 ```
 
 ### `UpdateBuilder`
-The `UpdateBuilder` will invoke the `ElasticSearch`&trade; update request, if the update `Map<String,Object>` is set then the 
+The `UpdateBuilder` will invoke the `ElasticSearch`&trade; update request, if the upsert `Map<String,Object>` is set then the 
 request will create the document if one is not present when updating.
 
 ```java

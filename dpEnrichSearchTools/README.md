@@ -16,7 +16,9 @@ Usage: enrich [options]
 
 With an example of 
 
-```enrich --output /data/s3/enrichmentRequests.json --root /data/s3/master```
+```
+java -jar dpEnrichSearchTools-0.0.1-SNAPSHOT-jar-with-dependencies.jar enrich --output /data/s3/enrichmentRequests.json --root /data/s3/master
+```
 
 Which results in the `enrichmentRequests.json` file contain the following first few lines.
 
